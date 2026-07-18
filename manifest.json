@@ -1,0 +1,17 @@
+{
+  "name": "MichiFinanzas",
+  "short_name": "MichiFinanzas",
+  "description": "Controla tus gastos: sueldo repartido en fijos, variables y ahorro.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFF8EE",
+  "theme_color": "#FF8FA8",
+  "icons": [
+    { "src": "icon-192-v4.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-v4.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512-v4.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
