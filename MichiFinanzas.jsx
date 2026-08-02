@@ -62,6 +62,7 @@ const T = {
     ],
     onb_skip:"Saltar", onb_next:"Siguiente", onb_start:"¡Empezar!", onb_nomore:"No volver a mostrar", onb_gotit:"¡Vamos!", tip_title:"Consejo de Michi 🐾",
     preset_ideal:"🌱 Ideal", preset_ideal_d:"un tercio cada uno", preset_real:"🏙️ Realista", preset_real_d:"50 / 30 / 20", preset_later:"✏️ Lo configuro luego", preset_applied:"Reparto guardado 🎯",
+    leg_title:"¿Qué son estas 3 huchas?", leg_fixed:"Lo que pagas sí o sí cada mes: alquiler, suscripciones, seguros...", leg_var:"Tu día a día: comida, transporte, ocio, caprichos...", leg_sav:"Lo que te queda al final. Este es tu sueldo de verdad 🐷", leg_red:"⚠️ Cuando una hucha se pone roja es que te has pasado de su presupuesto, y ese dinero de más sale de la siguiente: primero de tus variables y al final de tu ahorro.", leg_tap:"Toca cualquier hucha para ver su detalle.", leg_close:"Entendido",
     tips_section:"👋 Bienvenida y consejos", tips_toggle:"Mostrar un consejo al abrir la app", onb_replay:"🎓 Ver la guía de bienvenida otra vez",
   },
   en: {
@@ -119,6 +120,7 @@ const T = {
     ],
     onb_skip:"Skip", onb_next:"Next", onb_start:"Let's go!", onb_nomore:"Don't show again", onb_gotit:"Got it!", tip_title:"Michi's tip 🐾",
     preset_ideal:"🌱 Ideal", preset_ideal_d:"one third each", preset_real:"🏙️ Realistic", preset_real_d:"50 / 30 / 20", preset_later:"✏️ I'll set it later", preset_applied:"Split saved 🎯",
+    leg_title:"What are these 3 pots?", leg_fixed:"What you pay no matter what: rent, subscriptions, insurance...", leg_var:"Your day to day: food, transport, fun, treats...", leg_sav:"What's left at the end. This is your real salary 🐷", leg_red:"⚠️ When a pot turns red you have gone over its budget, and that extra money comes out of the next one: first your variable pot, and finally your savings.", leg_tap:"Tap any pot to see its detail.", leg_close:"Got it",
     tips_section:"👋 Welcome & tips", tips_toggle:"Show a tip when the app opens", onb_replay:"🎓 See the welcome guide again",
   }
 };
@@ -257,6 +259,12 @@ const STYLES = `
 .mf-calnav{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
 .mf-calnav b{font-family:'Baloo 2'; font-size:15px;}
 .mf-calnav button{background:var(--pink-soft); border:none; width:34px; height:34px; border-radius:11px; font-size:16px; cursor:pointer; color:var(--ink); font-weight:900;}
+.mf-help{border:none; background:var(--lav-soft); color:var(--lav); width:22px; height:22px; border-radius:99px; font-weight:900; font-size:13px; cursor:pointer; flex-shrink:0; font-family:inherit; line-height:1; display:grid; place-items:center;}
+.mf-legend{background:var(--lav-soft); border-radius:16px; padding:13px 15px; margin-bottom:12px; animation:mf-in .25s ease both;}
+.mf-legend .row{display:flex; gap:9px; align-items:flex-start; margin-bottom:8px; font-size:12.5px; font-weight:700; line-height:1.4; color:var(--ink);}
+.mf-legend .row b{white-space:nowrap; flex:0 0 auto; min-width:94px;}
+.mf-legend .warn{font-size:12px; font-weight:700; line-height:1.45; color:var(--ink); background:#fff; border-radius:12px; padding:9px 11px; margin-bottom:8px;}
+.mf-legend .tap{font-size:11.5px; font-weight:700; color:var(--ink-soft); text-align:center;}
 .mf-onb{position:fixed; inset:0; z-index:100; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 22px calc(30px + env(safe-area-inset-bottom)); text-align:center; overflow-y:auto; animation:mf-in .3s ease both;}
 .mf-onb .card{max-width:400px; width:100%; display:flex; flex-direction:column; align-items:center; gap:13px;}
 .mf-onb h3{font-family:'Baloo 2'; font-weight:800; font-size:23px; margin:0; line-height:1.2; text-wrap:balance;}
@@ -1050,6 +1058,7 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
   else if (savingsPct >= 1) { mood = "excited"; bubble = t("bubble_great"); }
   else { mood = "happy"; bubble = t("bubble_ok"); }
 
+  const [showLegend, setShowLegend] = useState(false);
   // la burbuja de Michi alterna entre el mensaje de estado y los consejos de uso
   const [bubbleIdx, setBubbleIdx] = useState(0);
   useEffect(() => {
@@ -1098,7 +1107,21 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
         );
       })()}
       <div className="mf-card">
-        <div className="mf-h3">{t("this_month", { month: ymToLabel(curYm) })}</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+          <div className="mf-h3" style={{ margin: 0 }}>{t("this_month", { month: ymToLabel(curYm) })}</div>
+          <button className="mf-help" onClick={() => setShowLegend((v) => !v)} aria-label={t("leg_title")}>?</button>
+        </div>
+        {showLegend && (
+          <div className="mf-legend">
+            <div style={{ fontWeight: 800, fontSize: 13.5, marginBottom: 8 }}>{t("leg_title")}</div>
+            <div className="row"><b>{t("fixed_label")}</b><span>{t("leg_fixed")}</span></div>
+            <div className="row"><b>{t("var_label")}</b><span>{t("leg_var")}</span></div>
+            <div className="row"><b>{t("sav_label")}</b><span>{t("leg_sav")}</span></div>
+            <div className="warn">{t("leg_red")}</div>
+            <div className="tap">{t("leg_tap")}</div>
+            <button className="mf-btn ghost sm" style={{ width: "100%", marginTop: 9 }} onClick={() => setShowLegend(false)}>{t("leg_close")}</button>
+          </div>
+        )}
         {settings.chartMode === "batteries" ? (
           <div className="mf-rings">
             <div className="mf-ring" onClick={() => setTab("fijos")} style={{ cursor: "pointer" }}>
