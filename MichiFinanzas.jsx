@@ -54,6 +54,15 @@ const T = {
       "En Ajustes: anillos o baterías, tú eliges 🔋",
       "Registra algo cada día y mantén tu racha 🔥",
     ],
+    onb: [
+      { t: "¡Hola! Soy Michi 🐱", d: "Voy a ayudarte a cuidar tu dinero. Sin cuentas, sin registros y sin anuncios: tus datos se quedan en tu dispositivo." },
+      { t: "Tu sueldo, en 3 huchas 💰", d: "Cada mes tu dinero se reparte en tres: 🏠 gastos fijos (alquiler, suscripciones), 🛍️ gastos variables (comida, ocio) y 🐷 ahorro." },
+      { t: "Las huchas se comen entre ellas 🌊", d: "Si te pasas con los fijos, el dinero sale de los variables. Y si te pasas con los variables, sale de tu ahorro. Por eso cada gastito cuenta." },
+      { t: "El ahorro es tu sueldo de verdad 🐷", d: "Lo demás es el coste de seguir en la partida. Elige cómo repartes tu sueldo (podrás cambiarlo cuando quieras en Ajustes):" },
+    ],
+    onb_skip:"Saltar", onb_next:"Siguiente", onb_start:"¡Empezar!", onb_nomore:"No volver a mostrar", onb_gotit:"¡Vamos!", tip_title:"Consejo de Michi 🐾",
+    preset_ideal:"🌱 Ideal", preset_ideal_d:"un tercio cada uno", preset_real:"🏙️ Realista", preset_real_d:"50 / 30 / 20", preset_later:"✏️ Lo configuro luego", preset_applied:"Reparto guardado 🎯",
+    tips_section:"👋 Bienvenida y consejos", tips_toggle:"Mostrar un consejo al abrir la app", onb_replay:"🎓 Ver la guía de bienvenida otra vez",
   },
   en: {
     title_suffix: "Finances",
@@ -102,6 +111,15 @@ const T = {
       "Rings or batteries? Pick in Settings 🔋",
       "Log something daily to keep your streak 🔥",
     ],
+    onb: [
+      { t: "Hi! I'm Michi 🐱", d: "I'll help you take care of your money. No accounts, no sign-ups and no ads: your data stays on your device." },
+      { t: "Your salary, in 3 pots 💰", d: "Every month your money is split in three: 🏠 fixed costs (rent, subscriptions), 🛍️ variable spending (food, fun) and 🐷 savings." },
+      { t: "The pots eat each other 🌊", d: "If you overspend on fixed costs, the money comes out of your variable pot. And if you overspend there, it comes out of your savings. That's why every little expense counts." },
+      { t: "Savings are your real salary 🐷", d: "The rest is the cost of staying in the game. Pick how you split your salary (you can change it any time in Settings):" },
+    ],
+    onb_skip:"Skip", onb_next:"Next", onb_start:"Let's go!", onb_nomore:"Don't show again", onb_gotit:"Got it!", tip_title:"Michi's tip 🐾",
+    preset_ideal:"🌱 Ideal", preset_ideal_d:"one third each", preset_real:"🏙️ Realistic", preset_real_d:"50 / 30 / 20", preset_later:"✏️ I'll set it later", preset_applied:"Split saved 🎯",
+    tips_section:"👋 Welcome & tips", tips_toggle:"Show a tip when the app opens", onb_replay:"🎓 See the welcome guide again",
   }
 };
 const t = (key, vars) => { let s = (T[LANG] || T.en)[key]; if (s === undefined) s = T.en[key] || key; if (vars) Object.entries(vars).forEach(([k, v]) => { s = s.split("{" + k + "}").join(String(v)); }); return s; };
@@ -239,6 +257,18 @@ const STYLES = `
 .mf-calnav{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
 .mf-calnav b{font-family:'Baloo 2'; font-size:15px;}
 .mf-calnav button{background:var(--pink-soft); border:none; width:34px; height:34px; border-radius:11px; font-size:16px; cursor:pointer; color:var(--ink); font-weight:900;}
+.mf-onb{position:fixed; inset:0; z-index:100; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:30px 22px calc(30px + env(safe-area-inset-bottom)); text-align:center; overflow-y:auto; animation:mf-in .3s ease both;}
+.mf-onb .card{max-width:400px; width:100%; display:flex; flex-direction:column; align-items:center; gap:13px;}
+.mf-onb h3{font-family:'Baloo 2'; font-weight:800; font-size:23px; margin:0; line-height:1.2; text-wrap:balance;}
+.mf-onb p{font-weight:700; font-size:14.5px; line-height:1.5; color:var(--ink-soft); margin:0;}
+.mf-onb .dots{display:flex; gap:6px; justify-content:center;}
+.mf-onb .dot{width:8px; height:8px; border-radius:99px; background:var(--pink-soft); transition:width .25s, background .25s;}
+.mf-onb .dot.on{background:var(--pink); width:22px;}
+.mf-onbskip{position:absolute; top:calc(12px + env(safe-area-inset-top)); right:14px; background:none; border:none; color:var(--ink-soft); font-weight:800; font-size:13px; cursor:pointer; font-family:inherit; padding:8px 10px;}
+.mf-onbchk{display:flex; align-items:center; gap:9px; font-size:12.5px; font-weight:700; color:var(--ink-soft); cursor:pointer;}
+.mf-preset{width:100%; border:2px solid var(--lav-soft); background:#fff; border-radius:16px; padding:11px 14px; font-family:inherit; font-weight:800; font-size:14px; color:var(--ink); cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:10px;}
+.mf-preset small{color:var(--ink-soft); font-weight:700; font-size:12px;}
+.mf-preset:active{transform:scale(.97);}
 .mf-ccysel{position:relative; display:inline-block;}
 .mf-ccybtn{border:none; background:var(--lav); color:#fff; border-radius:12px; padding:9px 16px; font-weight:800; font-size:13.5px; cursor:pointer; display:flex; align-items:center; gap:6px; font-family:inherit;}
 .mf-ccyveil{position:fixed; inset:0; z-index:60;}
@@ -439,6 +469,77 @@ async function writeBackupToHandle(handle, blob, interactive) {
     recordBackup();
     return true;
   } catch (e) { return false; }
+}
+
+/* ---------- bienvenida: guia la primera vez y un consejo en los siguientes arranques ---------- */
+const ONB_KEY = "mf_fin_onboarded", TIPS_KEY = "mf_fin_tips";
+const onbDone = () => { try { return localStorage.getItem(ONB_KEY) === "1"; } catch (e) { return false; } };
+const markOnbDone = () => { try { localStorage.setItem(ONB_KEY, "1"); } catch (e) {} };
+const tipsEnabled = () => { try { return localStorage.getItem(TIPS_KEY) !== "0"; } catch (e) { return true; } };
+const setTipsEnabled = (v) => { try { localStorage.setItem(TIPS_KEY, v ? "1" : "0"); } catch (e) {} };
+const SPLIT_PRESETS = { ideal: { splitFixed: 34, splitVar: 33, splitSav: 33 }, real: { splitFixed: 50, splitVar: 30, splitSav: 20 } };
+
+function Onboarding({ mode, onClose, setSettings, toastMsg }) {
+  const [step, setStep] = useState(0);
+  const [noMore, setNoMore] = useState(false);
+  const cards = (T[LANG] && T[LANG].onb) || T.en.onb;
+  const isTip = mode === "tip";
+  const last = step >= cards.length - 1;
+
+  const finish = () => {
+    markOnbDone();
+    if (noMore) setTipsEnabled(false);
+    onClose();
+  };
+  const applyPreset = (k) => {
+    if (SPLIT_PRESETS[k]) { setSettings((s) => ({ ...s, ...SPLIT_PRESETS[k] })); toastMsg(t("preset_applied")); }
+    finish();
+  };
+
+  if (isTip) {
+    const tips = (T[LANG] && T[LANG].tips) || T.en.tips;
+    const tip = tips[DAILY_QUOTE_IDX % tips.length];
+    return (
+      <div className="mf-onb">
+        <div className="card">
+          <Mascot mood="happy" size={104} />
+          <h3>{t("tip_title")}</h3>
+          <p>{tip}</p>
+          <button className="mf-btn primary" style={{ marginTop: 4 }} onClick={finish}>{t("onb_gotit")}</button>
+          <label className="mf-onbchk">
+            <input type="checkbox" checked={noMore} onChange={(e) => setNoMore(e.target.checked)} style={{ width: 17, height: 17, accentColor: "var(--pink)" }} />
+            {t("onb_nomore")}
+          </label>
+        </div>
+      </div>
+    );
+  }
+
+  const c = cards[step];
+  return (
+    <div className="mf-onb">
+      <button className="mf-onbskip" onClick={finish}>{t("onb_skip")} ✕</button>
+      <div className="card">
+        <Mascot mood={last ? "excited" : "happy"} size={104} />
+        <h3>{c.t}</h3>
+        <p>{c.d}</p>
+        {last ? (
+          <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 8, marginTop: 2 }}>
+            <button className="mf-preset" onClick={() => applyPreset("ideal")}>{t("preset_ideal")} <small>{t("preset_ideal_d")}</small></button>
+            <button className="mf-preset" onClick={() => applyPreset("real")}>{t("preset_real")} <small>{t("preset_real_d")}</small></button>
+            <button className="mf-preset" onClick={() => applyPreset("later")} style={{ borderColor: "var(--pink-soft)" }}>{t("preset_later")}</button>
+            <label className="mf-onbchk" style={{ justifyContent: "center", marginTop: 2 }}>
+              <input type="checkbox" checked={noMore} onChange={(e) => setNoMore(e.target.checked)} style={{ width: 17, height: 17, accentColor: "var(--pink)" }} />
+              {t("onb_nomore")}
+            </label>
+          </div>
+        ) : (
+          <button className="mf-btn primary" style={{ marginTop: 4 }} onClick={() => setStep((n) => n + 1)}>{t("onb_next")} →</button>
+        )}
+        <div className="dots">{cards.map((_, i) => <div key={i} className={`dot ${i === step ? "on" : ""}`} />)}</div>
+      </div>
+    </div>
+  );
 }
 
 /* ---------- mascota ---------- */
@@ -676,6 +777,10 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [burst, setBurst] = useState(0);
   const [lastBackup, setLastBackup] = useState(() => getLastBackup());
+  // bienvenida: guia completa la primera vez, un consejo en los siguientes arranques
+  const [onbMode, setOnbMode] = useState(null);
+  useEffect(() => { if (loaded) setOnbMode(!onbDone() ? "full" : (tipsEnabled() ? "tip" : null)); }, [loaded]);
+  const replayOnboarding = useCallback(() => setOnbMode("full"), []);
   // archivo fijo de copia: recuperar el enlace guardado (si el navegador soporta la API)
   const [backupHandle, setBackupHandle] = useState(null);
   const [backupFileName, setBackupFileName] = useState("");
@@ -863,7 +968,7 @@ export default function App() {
   }
 
   const cur = settings.currency || "€";
-  const ctx = { settings, setSettings, fixed, setFixed, txns, addTxn, addNoSpend, delTxn, editTxn, income, setIncome, addIncome, incomeThisMonth, budgets, fixedM, cur, curYm, varSpentCurYm, accSavings, setTab, toastMsg, onReset, fx, lastBackup, doManualBackup, applyBackup, choosePinnedFile, unlinkPinned, backupFileName, lang, changeLang, patrimonio, setPatrimonio, patrimonioHistory, setPatrimonioHistory };
+  const ctx = { settings, setSettings, fixed, setFixed, txns, addTxn, addNoSpend, delTxn, editTxn, income, setIncome, addIncome, incomeThisMonth, budgets, fixedM, cur, curYm, varSpentCurYm, accSavings, setTab, toastMsg, onReset, fx, lastBackup, doManualBackup, applyBackup, choosePinnedFile, unlinkPinned, backupFileName, replayOnboarding, lang, changeLang, patrimonio, setPatrimonio, patrimonioHistory, setPatrimonioHistory };
   const NAV = [
     { id: "inicio", img: "ICO_Home.png", l: t("nav_inicio") },
     { id: "fijos", img: "ICO_Fix.png", l: t("nav_fijos") },
@@ -916,6 +1021,7 @@ export default function App() {
 
         {toast && <div className="mf-toast" key={toast.id}>{toast.m}</div>}
         <Confetti trigger={burst} />
+        {onbMode && <Onboarding mode={onbMode} onClose={() => setOnbMode(null)} setSettings={setSettings} toastMsg={toastMsg} />}
       </div>
     </div>
   );
@@ -1850,7 +1956,8 @@ function Patrimonio({ patrimonio, setPatrimonio, patrimonioHistory, setPatrimoni
 }
 
 /* ---------- AJUSTES ---------- */
-function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, doManualBackup, applyBackup, choosePinnedFile, unlinkPinned, backupFileName, setTab, lang, changeLang }) {
+function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, doManualBackup, applyBackup, choosePinnedFile, unlinkPinned, backupFileName, replayOnboarding, setTab, lang, changeLang }) {
+  const [tipsOn, setTipsOnState] = useState(() => tipsEnabled());
   const [s, setS] = useState(settings);
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmImport, setConfirmImport] = useState(false);
@@ -1913,6 +2020,12 @@ function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, do
 
       <div className="mf-card">
         <div className="mf-h3">{t("split_section")}</div>
+        <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+          <button className="mf-preset" style={{ flex: 1, justifyContent: "center", gap: 6, flexWrap: "wrap" }}
+            onClick={() => { setS((x) => ({ ...x, ...SPLIT_PRESETS.ideal })); }}>{t("preset_ideal")} <small>{t("preset_ideal_d")}</small></button>
+          <button className="mf-preset" style={{ flex: 1, justifyContent: "center", gap: 6, flexWrap: "wrap" }}
+            onClick={() => { setS((x) => ({ ...x, ...SPLIT_PRESETS.real })); }}>{t("preset_real")} <small>{t("preset_real_d")}</small></button>
+        </div>
         <div className="mf-inrow">
           <div className="mf-field"><label>{t("fixed_pct")}</label><input className="mf-input" inputMode="numeric" value={s.splitFixed} onChange={(e) => setNum("splitFixed", e.target.value)} /></div>
           <div className="mf-field"><label>{t("var_pct")}</label><input className="mf-input" inputMode="numeric" value={s.splitVar} onChange={(e) => setNum("splitVar", e.target.value)} /></div>
@@ -1933,6 +2046,16 @@ function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, do
           </div>
         ))}
         <button className="mf-btn ghost sm" style={{ marginTop: 8 }} onClick={addCat}>{t("add_cat_btn")}</button>
+      </div>
+
+      <div className="mf-card">
+        <div className="mf-h3">{t("tips_section")}</div>
+        <label style={{ display: "flex", alignItems: "center", gap: 12, cursor: "pointer" }}>
+          <input type="checkbox" checked={tipsOn} onChange={(e) => { setTipsOnState(e.target.checked); setTipsEnabled(e.target.checked); }}
+            style={{ width: 20, height: 20, accentColor: "var(--pink)", cursor: "pointer", flexShrink: 0 }} />
+          <div style={{ fontWeight: 700, fontSize: 14, color: "var(--ink)" }}>{t("tips_toggle")}</div>
+        </label>
+        <button className="mf-btn ghost" style={{ marginTop: 10 }} onClick={replayOnboarding}>{t("onb_replay")}</button>
       </div>
 
       <div className="mf-card">
