@@ -144,6 +144,12 @@
 .mf-calnav{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
 .mf-calnav b{font-family:'Baloo 2'; font-size:15px;}
 .mf-calnav button{background:var(--pink-soft); border:none; width:34px; height:34px; border-radius:11px; font-size:16px; cursor:pointer; color:var(--ink); font-weight:900;}
+.mf-ccysel{position:relative; display:inline-block;}
+.mf-ccybtn{border:none; background:var(--lav); color:#fff; border-radius:12px; padding:9px 16px; font-weight:800; font-size:13.5px; cursor:pointer; display:flex; align-items:center; gap:6px; font-family:inherit;}
+.mf-ccyveil{position:fixed; inset:0; z-index:60;}
+.mf-ccymenu{position:absolute; top:calc(100% + 6px); left:50%; transform:translateX(-50%); background:#fff; border:2px solid var(--lav-soft); border-radius:14px; box-shadow:var(--shadow); padding:5px; display:flex; flex-direction:column; gap:2px; z-index:61; min-width:112px; max-height:280px; overflow-y:auto; animation:mf-in .18s ease both;}
+.mf-ccyopt{border:none; background:none; border-radius:10px; padding:9px 12px; font-weight:800; font-size:13.5px; color:var(--ink); cursor:pointer; text-align:left; font-family:inherit; white-space:nowrap;}
+.mf-ccyopt.on{background:var(--lav); color:#fff;}
 @media (prefers-reduced-motion: reduce){ *{animation-duration:.001s !important; transition-duration:.05s !important;} }</style>
 </head>
 <body>
@@ -234,8 +240,7 @@ const T = {
     nav_inicio:"Inicio", nav_variables:"Variables", nav_fijos:"Fijos", nav_resumen:"Resumen", nav_karma:"Karma",
     bubble_noincome:"¡Hola! Añade tus ingresos con el botón ＋ 💰", bubble_zero:"Este mes no te está quedando nada para ahorrar 👀", bubble_great:"¡Vas ahorrando como un campeón este mes! 🌱", bubble_ok:"Vas bien de presupuesto. ¡Sigue así! 💪", bubble_neutral:"Vamos a cuidar tu dinero, paso a pasito 🐾",
     savings_label:"🐷 AHORRO ESTE MES", level_abbr:"Nv {n}", backup_save:"guardar →", backup_never:"¡Nunca hiciste copia!", backup_today:"Copia hecha hoy", backup_yesterday:"Copia: ayer", backup_days:"Copia: hace {n} días",
-    this_month:"Tu mes · {month}", fixed_label:"🏠 Fijos", var_label:"🛍️ Variables", sav_label:"🐷 Ahorro", over_budget:"te has pasado este mes", acc_savings:"ahorro acumulado total", this_month_savings:"ahorrado este mes",
-    missions_title:"🎯 Misiones de hoy", mission_log:"Registra tu día", mission_nospend:"Día sin gastos variables", mission_under:"Bajo presupuesto variable este mes",
+    this_month:"Tu mes · {month}", fixed_label:"🏠 Fijos", var_label:"🛍️ Variables", sav_label:"🐷 Ahorro", ring_gastos:"Gastos", ring_ahorro:"Ahorro", ring_inversion:"e inversión", over_budget:"te has pasado este mes", acc_savings:"ahorro acumulado total", this_month_savings:"ahorrado este mes",
     recent_title:"Últimos movimientos", see_all:"ver todos", no_expenses:"Aún no hay gastos. Toca ＋ para añadir el primero 💕", expense_fallback:"Gasto",
     add_base_currency:"en tu moneda base", add_will_save:"se guardará en", category_label:"Categoría", date_label:"Fecha", note_label:"Nota", optional:"opcional", save_expense_btn:"💸 Guardar gasto", no_spend_btn:"🍃 Hoy no he gastado nada", rate_live_adj:"de hoy", rate_approx_adj:"aprox.", rate_note:"Cambio {rate}: 1 {ccy} = {val}. Se guarda fijado a este valor.", enter_amount:"Pon un importe 🙏",
     var_title:"📂 Gastos variables", spent_this_month:"Gastado este mes", goal_label:"🎯 Tu presupuesto objetivo", goal_hint_var:"opcional, dentro de los {amount} de variables", eg:"Ej.", save_btn:"Guardar", no_var_expenses:"Sin gastos este mes 🌿", movements:"Movimientos ({n})", note_placeholder:"Nota", save_edit_btn:"✓ Guardar", cancel_btn:"Cancelar", nothing_here:"Nada por aquí todavía.", var_goal_saved:"Presupuesto de variables guardado 🎯", var_goal_removed:"Tope de variables quitado", expense_updated:"Gasto actualizado ✏️",
@@ -282,8 +287,7 @@ const T = {
     nav_inicio:"Home", nav_variables:"Expenses", nav_fijos:"Fixed", nav_resumen:"Summary", nav_karma:"Karma",
     bubble_noincome:"Hi! Add your income with the ＋ button 💰", bubble_zero:"You're not saving anything this month 👀", bubble_great:"You're saving like a champion this month! 🌱", bubble_ok:"Budget looking good. Keep it up! 💪", bubble_neutral:"Let's take care of your money, step by step 🐾",
     savings_label:"🐷 SAVINGS THIS MONTH", level_abbr:"Lv {n}", backup_save:"save →", backup_never:"No backup yet!", backup_today:"Backup done today", backup_yesterday:"Backup: yesterday", backup_days:"Backup: {n} days ago",
-    this_month:"This month · {month}", fixed_label:"🏠 Fixed", var_label:"🛍️ Variable", sav_label:"🐷 Savings", over_budget:"over budget this month", acc_savings:"total accumulated savings", this_month_savings:"saved this month",
-    missions_title:"🎯 Today's missions", mission_log:"Log your day", mission_nospend:"No variable expenses day", mission_under:"Under variable budget this month",
+    this_month:"This month · {month}", fixed_label:"🏠 Fixed", var_label:"🛍️ Variable", sav_label:"🐷 Savings", ring_gastos:"Expenses", ring_ahorro:"Savings", ring_inversion:"& investment", over_budget:"over budget this month", acc_savings:"total accumulated savings", this_month_savings:"saved this month",
     recent_title:"Recent transactions", see_all:"see all", no_expenses:"No expenses yet. Tap ＋ to add your first one 💕", expense_fallback:"Expense",
     add_base_currency:"in your base currency", add_will_save:"will be saved in", category_label:"Category", date_label:"Date", note_label:"Note", optional:"optional", save_expense_btn:"💸 Save expense", no_spend_btn:"🍃 No expenses today", rate_live_adj:"today's", rate_approx_adj:"approx.", rate_note:"{rate} rate: 1 {ccy} = {val}. Saved at this rate.", enter_amount:"Enter an amount 🙏",
     var_title:"📂 Variable expenses", spent_this_month:"Spent this month", goal_label:"🎯 Your target budget", goal_hint_var:"optional, within your {amount} variable budget", eg:"E.g.", save_btn:"Save", no_var_expenses:"No expenses this month 🌿", movements:"Transactions ({n})", note_placeholder:"Note", save_edit_btn:"✓ Save", cancel_btn:"Cancel", nothing_here:"Nothing here yet.", var_goal_saved:"Variable budget saved 🎯", var_goal_removed:"Variable limit removed", expense_updated:"Expense updated ✏️",
@@ -355,7 +359,8 @@ const recurX = (k) => (RECUR.find((r) => r.k === k) || RECUR[3]).x;
 const recurLabel = (k) => { const rec = T[LANG].recur || T.en.recur; return rec[k] || k; };
 const recurAbbr = (k) => { const ab = T[LANG].recur_abbr || T.en.recur_abbr; return ab[k] || k; };
 
-const FX_FALLBACK = { EUR: 1, USD: 1.16, THB: 37.7, BTC: 1 / 60000 };
+const CURRENCIES = ["EUR", "USD", "GBP", "JPY", "CHF", "CAD", "AUD", "MXN", "ARS", "COP", "THB", "BTC"];
+const FX_FALLBACK = { EUR: 1, USD: 1.16, GBP: 0.84, JPY: 163, CHF: 0.94, CAD: 1.57, AUD: 1.77, MXN: 22.5, ARS: 1050, COP: 5000, THB: 37.7, BTC: 1 / 60000 };
 
 // Suma entradas de ingreso para un ym dado, convertidas a EUR. Devuelve null si no hay entradas.
 function incomeForYm(incomeArr, ym, fxRates) {
@@ -411,9 +416,8 @@ const monthlyFixed = (fixed, rates) => (fixed || []).reduce((a, f) => {
 // los movimientos guardan su importe ya en EUR (amount); varSpent suma en EUR
 const varSpentIn = (txns, ym) => (txns || []).filter((t) => !t.noSpend && ymOf(t.date) === ym).reduce((a, t) => a + (Number(t.amount) || 0), 0);
 
-const SYM = { THB: "฿", USD: "$", EUR: "€", BTC: "₿" };
-// BTC tiene 8 decimales (satoshis); las demás monedas, 2
-const ccyDec = (c) => (c === "BTC" ? 8 : 2);
+const SYM = { EUR: "€", USD: "$", GBP: "£", JPY: "¥", CHF: "Fr", CAD: "C$", AUD: "A$", MXN: "$", ARS: "$", COP: "$", THB: "฿", BTC: "₿" };
+const ccyDec = (c) => c === "BTC" ? 8 : c === "JPY" ? 0 : 2;
 // importe original a mostrar (฿350) si el gasto se pagó en otra moneda; null => mostrar solo el importe base
 const txOrig = (t) => {
   const o = t.orig;
@@ -436,6 +440,27 @@ function TxAmount({ tx, cur }) {
     <div style={{ textAlign: "right" }}>
       <div className="amt" style={{ color: "var(--warn)" }}>−{orig || money(tx.amount, cur)}</div>
       {orig && <div className="sub">≈ {money(tx.amount, cur)}</div>}
+    </div>
+  );
+}
+
+/* ---------- selector desplegable de moneda (muestra solo la activa) ---------- */
+function CcySelect({ value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const pick = (c) => { onChange(c); setOpen(false); };
+  return (
+    <div className="mf-ccysel">
+      <button type="button" className="mf-ccybtn" onClick={() => setOpen((o) => !o)}>
+        {SYM[value] || ""} {value} <span style={{ fontSize: 10, opacity: 0.75 }}>{open ? "▲" : "▼"}</span>
+      </button>
+      {open && (<>
+        <div className="mf-ccyveil" onClick={() => setOpen(false)} />
+        <div className="mf-ccymenu">
+          {CURRENCIES.map((c) => (
+            <button type="button" key={c} className={`mf-ccyopt ${c === value ? "on" : ""}`} onClick={() => pick(c)}>{SYM[c]} {c}</button>
+          ))}
+        </div>
+      </>)}
     </div>
   );
 }
@@ -617,6 +642,7 @@ function Battery({ size = 88, value = 0, max = 1, color = "#FF8FA8", track = "#F
   );
 }
 
+
 function Confetti({ trigger }) {
   const reduced = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const colors = ["#FF8FA8", "#6FBEEF", "#9AE6B4", "#7ED6A5"];
@@ -788,14 +814,15 @@ function App() {
         .then((r) => r.ok ? r.json() : Promise.reject())
         .then((d) => { const p = parseFloat(d?.result?.XXBTZEUR?.c?.[0]); if (!p) throw 0; return 1 / p; }))
       .catch(() => FX_FALLBACK.BTC);
-    withT("https://api.frankfurter.app/latest?from=EUR&to=USD,THB", 7000)
+    const FX_LIVE = ["USD","GBP","JPY","CHF","CAD","AUD","MXN","THB"];
+    withT(`https://api.frankfurter.app/latest?from=EUR&to=${FX_LIVE.join(",")}`, 7000)
       .then((r) => r.ok ? r.json() : Promise.reject())
-      .then((d) => { if (!d || !d.rates || !d.rates.USD || !d.rates.THB) throw 0; return { USD: d.rates.USD, THB: d.rates.THB, date: d.date }; })
+      .then((d) => { if (!d || !d.rates || !d.rates.USD) throw 0; return { ...d.rates, date: d.date }; })
       .catch(() => withT("https://open.er-api.com/v6/latest/EUR", 7000)
         .then((r) => r.ok ? r.json() : Promise.reject())
-        .then((d) => { if (!d || !d.rates || !d.rates.USD || !d.rates.THB) throw 0; return { USD: d.rates.USD, THB: d.rates.THB, date: (d.time_last_update_utc || "").slice(5, 16) }; }))
+        .then((d) => { if (!d || !d.rates || !d.rates.USD) throw 0; const r = d.rates; return { USD: r.USD, GBP: r.GBP, JPY: r.JPY, CHF: r.CHF, CAD: r.CAD, AUD: r.AUD, MXN: r.MXN, THB: r.THB, date: (d.time_last_update_utc || "").slice(5, 16) }; }))
       .then((res) => Promise.all([res, btcPromise]))
-      .then(([res, btc]) => { setFxRates({ EUR: 1, USD: res.USD, THB: res.THB, BTC: btc }); setFxUpdated(res.date || ""); setFxLive(true); })
+      .then(([res, btc]) => { setFxRates({ EUR: 1, ARS: FX_FALLBACK.ARS, COP: FX_FALLBACK.COP, ...res, BTC: btc }); setFxUpdated(res.date || ""); setFxLive(true); })
       .catch(() => { setFxLive(false); })
       .finally(() => setFxLoading(false));
   }, []);
@@ -813,52 +840,13 @@ function App() {
   const curYm = todayISO().slice(0, 7);
   const varSpentCurYm = useMemo(() => varSpentIn(txns, curYm), [txns, curYm]);
 
-  const gamification = useMemo(() => {
+  const accSavings = useMemo(() => {
     const real = txns.filter((t) => !t.noSpend);
-    let xp = 0;
-    xp += real.length * 6;
-    xp += txns.filter((t) => t.noSpend).length * 12;
-    if (incomeThisMonth > 0) xp += 10;
-    xp += Math.min(fixed.length, 6) * 5;
-    // streak: días seguidos con actividad (gasto o día sin gastos)
-    const daySet = new Set(txns.map((t) => t.date));
-    let streak = 0, cursor = todayISO();
-    if (!daySet.has(cursor)) cursor = addDays(cursor, -1);
-    while (daySet.has(cursor)) { streak++; cursor = addDays(cursor, -1); }
-    // ahorro acumulado (meses con actividad + actual)
     const months = new Set(real.map((t) => ymOf(t.date))); months.add(curYm);
     let acc = 0;
     months.forEach((ym) => { acc += (incomeForYm(income, ym, fxRates) ?? 0) - fixedM - varSpentIn(txns, ym); });
-    const noSpendDays = txns.filter((t) => t.noSpend).length;
-    const cats = new Set(real.map((t) => t.cat));
-    const underThisMonth = incomeThisMonth > 0 && varSpentIn(txns, curYm) <= budgets.variable;
-    const level = Math.floor(xp / 100) + 1;
-    const into = xp % 100;
-    const badges = [
-      { id: "first", ic: "🌱", nm: t("badge_first"), on: real.length >= 1 },
-      { id: "s3", ic: "🔥", nm: t("badge_s3"), on: streak >= 3 },
-      { id: "s7", ic: "⚡", nm: t("badge_s7"), on: streak >= 7 },
-      { id: "s14", ic: "🌟", nm: t("badge_s14"), on: streak >= 14 },
-      { id: "s30", ic: "👑", nm: t("badge_s30"), on: streak >= 30 },
-      { id: "ns1", ic: "🍃", nm: t("badge_ns1"), on: noSpendDays >= 1 },
-      { id: "ns5", ic: "🧘", nm: t("badge_ns5"), on: noSpendDays >= 5 },
-      { id: "under", ic: "🎯", nm: t("badge_under"), on: underThisMonth },
-      { id: "acc100", ic: "🐷", nm: t("badge_acc100"), on: acc >= 100 },
-      { id: "acc500", ic: "💰", nm: t("badge_acc500"), on: acc >= 500 },
-      { id: "acc1000", ic: "🏆", nm: t("badge_acc1000"), on: acc >= 1000 },
-      { id: "cats", ic: "🌈", nm: t("badge_cats"), on: cats.size >= (settings.categories || []).length && (settings.categories || []).length > 0 },
-    ];
-    return { xp, level, into, streak, acc, noSpendDays, badges, badgeCount: badges.filter((b) => b.on).length };
-  }, [txns, fixed, settings, fixedM, budgets, curYm, income, fxRates, incomeThisMonth]);
-
-  // confeti al subir de nivel o desbloquear logro
-  const pl = useRef(null), pb = useRef(null);
-  useEffect(() => {
-    if (!loaded) return;
-    if (pl.current !== null && gamification.level > pl.current) { setBurst(Date.now()); toastMsg(t("toast_level", { n: gamification.level })); }
-    else if (pb.current !== null && gamification.badgeCount > pb.current) { setBurst(Date.now()); toastMsg(t("badge_unlocked")); }
-    pl.current = gamification.level; pb.current = gamification.badgeCount;
-  }, [gamification.level, gamification.badgeCount, loaded, toastMsg]);
+    return acc;
+  }, [txns, fixedM, curYm, income, fxRates]);
 
   const addTxn = useCallback((t) => { setTxns((x) => [...x, { id: uid(), ...t }]); }, []);
   const addIncome = useCallback((entry) => { setIncome((x) => [...x, { id: uid(), ...entry }]); }, []);
@@ -904,7 +892,7 @@ function App() {
   }
 
   const cur = settings.currency || "€";
-  const ctx = { settings, setSettings, fixed, setFixed, txns, addTxn, addNoSpend, delTxn, editTxn, income, setIncome, addIncome, incomeThisMonth, budgets, fixedM, cur, curYm, varSpentCurYm, gamification, setTab, toastMsg, onReset, fx, lastBackup, doManualBackup, applyBackup, lang, changeLang, patrimonio, setPatrimonio, patrimonioHistory, setPatrimonioHistory };
+  const ctx = { settings, setSettings, fixed, setFixed, txns, addTxn, addNoSpend, delTxn, editTxn, income, setIncome, addIncome, incomeThisMonth, budgets, fixedM, cur, curYm, varSpentCurYm, accSavings, setTab, toastMsg, onReset, fx, lastBackup, doManualBackup, applyBackup, lang, changeLang, patrimonio, setPatrimonio, patrimonioHistory, setPatrimonioHistory };
   const NAV = [
     { id: "inicio", img: "ICO_Home.png", l: t("nav_inicio") },
     { id: "fijos", img: "ICO_Fix.png", l: t("nav_fijos") },
@@ -920,11 +908,11 @@ function App() {
       <div className="mf-phone">
         <div className="mf-header"><div className="mf-hrow">
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div><div className="mf-title">Michi<b>{t("title_suffix")}</b></div><div className="mf-tsub">{t("subtitle")}</div></div>
+            <div onClick={() => setTab("inicio")} style={{ cursor: "pointer" }}><div className="mf-title">Michi<b>{t("title_suffix")}</b></div><div className="mf-tsub">{t("subtitle")}</div></div>
             <img src="Logo_app.png" alt="" style={{ width: 52, height: 52, objectFit: "contain", cursor: "pointer" }} onClick={handleLogoTap} />
           </div>
           <div className="mf-chip">
-            <button className="mf-mini" onClick={() => setTab("logros")}>🔥 {gamification.streak}</button>
+            <button className="mf-mini" onClick={() => setTab("ayuda")} style={{ fontWeight: 900, fontSize: 15 }}>?</button>
             <button className="mf-mini" onClick={() => setTab("conversor")}>💱</button>
             <button className="mf-mini gear" onClick={() => setTab("ajustes")}>⚙️</button>
           </div>
@@ -935,7 +923,8 @@ function App() {
         {tab === "add" && <Añadir {...ctx} />}
         {tab === "fijos" && <Fijos {...ctx} />}
         {tab === "resumen" && <Resumen {...ctx} />}
-        {tab === "logros" && <Logros {...ctx} />}
+
+        {tab === "ayuda" && <Ayuda setTab={setTab} />}
         {tab === "conversor" && <Conversor fx={fx} />}
         {tab === "ajustes" && <Ajustes {...ctx} />}
         {tab === "ingresos" && <Ingresos {...ctx} />}
@@ -962,7 +951,7 @@ function App() {
 }
 
 /* ---------- INICIO ---------- */
-function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, varSpentCurYm, gamification, setTab, lastBackup }) {
+function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, varSpentCurYm, accSavings, setTab, lastBackup }) {
   const varSpent = varSpentCurYm;
   const savingsNow = incomeThisMonth - fixedM - varSpent;
   const noIncome = !incomeThisMonth;
@@ -987,11 +976,6 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
   const goalVarPct = settings.goalVar > 0 && budgets.variable > 0 ? settings.goalVar / budgets.variable : null;
   const recent = [...txns].filter((t) => !t.noSpend).sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 4);
   const catOf = (id) => (settings.categories || []).find((c) => c.id === id);
-  const missions = [
-    { t: t("mission_log"), done: txns.some((tx) => tx.date === todayISO()), xp: 6 },
-    { t: t("mission_nospend"), done: txns.some((tx) => tx.date === todayISO() && tx.noSpend) && !txns.some((tx) => tx.date === todayISO() && !tx.noSpend), xp: 12 },
-    { t: t("mission_under"), done: incomeThisMonth > 0 && varSpent <= budgets.variable, xp: 15 },
-  ];
 
   const backupDays = daysSinceISO(lastBackup);
   const backupOk = backupDays <= 2, backupWarn = backupDays > 2 && backupDays <= 10;
@@ -1001,20 +985,20 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
 
   return (
     <div className="mf-page">
-      {!noIncome && (() => {
+      {(() => {
         const goal = budgets.savings || 1;
         const isNeg = savingsNow < 0;
-        const pct = isNeg ? 0 : Math.min(1, savingsNow / goal);
-        const overPct = !isNeg && savingsNow > goal ? Math.min(1, (savingsNow - goal) / goal) : 0;
+        const pct = noIncome ? 0 : (isNeg ? 0 : Math.min(1, savingsNow / goal));
+        const overPct = !isNeg && !noIncome && savingsNow > goal ? Math.min(1, (savingsNow - goal) / goal) : 0;
         return (
           <div className="mf-hero">
             <div className="lab">{t("savings_label")}</div>
             <div className="v mf-num" style={{ color: isNeg ? "#E8453C" : undefined }}>
-              {isNeg ? "−" : ""}{money(Math.abs(Math.round(savingsNow)), cur)}
+              {(isNeg ? "−" : "") + money(Math.abs(Math.round(noIncome ? 0 : savingsNow)), cur)}
             </div>
             <div style={{ width: "100%", marginTop: 8 }}>
-              <div style={{ position: "relative", height: 10, borderRadius: 99, background: "rgba(255,255,255,0.25)", overflow: "hidden" }}>
-                {isNeg
+              <div style={{ position: "relative", height: 10, borderRadius: 99, background: "rgba(154,230,180,0.45)", overflow: "hidden" }}>
+                {isNeg && !noIncome
                   ? <div style={{ position: "absolute", inset: 0, background: "#E8453C", borderRadius: 99 }} />
                   : <>
                       <div style={{ position: "absolute", inset: 0, width: `${pct * 100}%`, background: "#9AE6B4", borderRadius: 99, transition: "width .9s cubic-bezier(.34,1.56,.64,1)" }} />
@@ -1027,50 +1011,50 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
         );
       })()}
       <div className="mf-card">
-        <div className="mf-mascotwrap"><Mascot mood={mood} size={86} /><div className="mf-bubble" key={bubbleIdx % bubblePhrases.length}>{bubbleText}</div></div>
-        <div className="mf-xprow">
-          <span className="mf-lvl">{t("level_abbr", { n: gamification.level })}</span>
-          <div className="mf-xpbar"><div className="mf-xpfill" style={{ width: `${gamification.into}%` }} /></div>
-          <span style={{ fontFamily: "Baloo 2", fontWeight: 800, fontSize: 12, color: "var(--ink-soft)" }}>{gamification.into}/100</span>
-        </div>
-        <button onClick={() => setTab("ajustes")} style={{ marginTop: 10, width: "100%", display: "flex", alignItems: "center", gap: 8, border: "none", borderRadius: 14, padding: "9px 12px", background: backupBg, color: backupFg, fontWeight: 800, fontSize: 12.5, cursor: "pointer", fontFamily: "inherit" }}>
-          <span style={{ fontSize: 16 }}>🛡️</span><span style={{ flex: 1, textAlign: "left" }}>{backupTxt}</span><span style={{ opacity: .7 }}>{t("backup_save")}</span>
-        </button>
-      </div>
-
-      <div className="mf-card">
         <div className="mf-h3">{t("this_month", { month: ymToLabel(curYm) })}</div>
         {settings.chartMode === "batteries" ? (
           <div className="mf-rings">
             <div className="mf-ring" onClick={() => setTab("fijos")} style={{ cursor: "pointer" }}>
-              <Battery value={fixedM} max={budgets.fixed || 1} color="#6FBEEF" track="#DCF0FC" overColor="#E8453C" goalPct={goalFixedPct}
-                center={<div className="mf-ringval" style={{ fontSize: 12 }}>{fmt(Math.round(fixedM))}</div>} label={t("fixed_label")} />
+              <Battery value={fixedM} max={budgets.fixed || 1} color="#6FBEEF" track="#DCF0FC" overColor="#E8453C" goalPct={goalFixedPct} size={96}
+                center={<div className="mf-ringval" style={{ fontSize: 12 }}>{fmt(Math.round(fixedM))}</div>}
+                label={<><div style={{ fontSize: 10, lineHeight: 1.2, opacity: 0.7 }}>{t("ring_gastos")}</div><div>{t("nav_fijos")}</div></>} />
             </div>
             <div className="mf-ring" onClick={() => setTab("variables")} style={{ cursor: "pointer" }}>
-              <Battery value={varSpent} max={budgets.variable || 1} color="#FF8FA8" track="#FFD9E3" overColor="#E8453C" goalPct={goalVarPct}
-                center={<div className="mf-ringval" style={{ fontSize: 12 }}>{fmt(Math.round(varSpent))}</div>} label={t("var_label")} />
+              <Battery value={varSpent} max={budgets.variable || 1} color="#FF8FA8" track="#FFD9E3" overColor="#E8453C" goalPct={goalVarPct} size={96}
+                center={<div className="mf-ringval" style={{ fontSize: 12 }}>{fmt(Math.round(varSpent))}</div>}
+                label={<><div style={{ fontSize: 10, lineHeight: 1.2, opacity: 0.7 }}>{t("ring_gastos")}</div><div>{t("nav_variables")}</div></>} />
             </div>
             <div className="mf-ring" onClick={() => setTab("resumen")} style={{ cursor: "pointer" }}>
-              <Battery value={Math.max(0, savingsNow)} max={budgets.savings || 1} color="#9AE6B4" track="#E1F7E9" overColor="#1E9E5C"
-                center={<div className="mf-ringval" style={{ fontSize: 12 }}>{fmt(Math.round(Math.max(0, savingsNow)))}</div>} label={t("sav_label")} />
+              <Battery value={Math.max(0, savingsNow)} max={budgets.savings || 1} color="#9AE6B4" track="#E1F7E9" overColor="#1E9E5C" size={96}
+                center={<div className="mf-ringval" style={{ fontSize: 12 }}>{fmt(Math.round(Math.max(0, savingsNow)))}</div>}
+                label={<><div>{t("ring_ahorro")}</div><div style={{ fontSize: 10, lineHeight: 1.2, opacity: 0.7 }}>{t("ring_inversion")}</div></>} />
             </div>
           </div>
         ) : (
           <div className="mf-rings">
             <div className="mf-ring" onClick={() => setTab("fijos")} style={{ cursor: "pointer" }}>
-              <Ring value={fixedM} max={budgets.fixed || 1} color="#6FBEEF" track="#DCF0FC" overColor="#E8453C" goalPct={goalFixedPct}
+              <Ring value={fixedM} max={budgets.fixed || 1} color="#6FBEEF" track="#DCF0FC" overColor="#E8453C" goalPct={goalFixedPct} size={96}
                 center={<div className="mf-ringval">{fmt(Math.round(fixedM))}<br/><small>/{fmt(Math.round(budgets.fixed))}</small></div>} />
-              <span className="lab">{t("fixed_label")} {fixedM > budgets.fixed && budgets.fixed > 0 ? <b style={{ color: "#E8453C" }}>· +{Math.round(((fixedM - budgets.fixed) / budgets.fixed) * 100)}%</b> : null}</span>
+              <div className="lab" style={{ textAlign: "center", lineHeight: 1.3 }}>
+                <div style={{ fontSize: 9, opacity: 0.7 }}>{t("ring_gastos")}</div>
+                <div>{t("nav_fijos")}{fixedM > budgets.fixed && budgets.fixed > 0 ? <b style={{ color: "#E8453C" }}> +{Math.round(((fixedM - budgets.fixed) / budgets.fixed) * 100)}%</b> : null}</div>
+              </div>
             </div>
             <div className="mf-ring" onClick={() => setTab("variables")} style={{ cursor: "pointer" }}>
-              <Ring value={varSpent} max={budgets.variable || 1} color="#FF8FA8" track="#FFD9E3" overColor="#E8453C" goalPct={goalVarPct}
+              <Ring value={varSpent} max={budgets.variable || 1} color="#FF8FA8" track="#FFD9E3" overColor="#E8453C" goalPct={goalVarPct} size={96}
                 center={<div className="mf-ringval">{fmt(Math.round(varSpent))}<br/><small>/{fmt(Math.round(budgets.variable))}</small></div>} />
-              <span className="lab">{t("var_label")} {varSpent > budgets.variable && budgets.variable > 0 ? <b style={{ color: "#E8453C" }}>· +{Math.round(((varSpent - budgets.variable) / budgets.variable) * 100)}%</b> : null}</span>
+              <div className="lab" style={{ textAlign: "center", lineHeight: 1.3 }}>
+                <div style={{ fontSize: 9, opacity: 0.7 }}>{t("ring_gastos")}</div>
+                <div>{t("nav_variables")}{varSpent > budgets.variable && budgets.variable > 0 ? <b style={{ color: "#E8453C" }}> +{Math.round(((varSpent - budgets.variable) / budgets.variable) * 100)}%</b> : null}</div>
+              </div>
             </div>
             <div className="mf-ring" onClick={() => setTab("resumen")} style={{ cursor: "pointer" }}>
-              <Ring value={Math.max(0, savingsNow)} max={budgets.savings || 1} color="#9AE6B4" track="#E1F7E9" overColor="#1E9E5C"
+              <Ring value={Math.max(0, savingsNow)} max={budgets.savings || 1} color="#9AE6B4" track="#E1F7E9" overColor="#1E9E5C" size={96}
                 center={<div className="mf-ringval">{fmt(Math.round(Math.max(0, savingsNow)))}<br/><small>/{fmt(Math.round(budgets.savings))}</small></div>} />
-              <span className="lab">{t("sav_label")} {savingsNow > budgets.savings && budgets.savings > 0 ? <b style={{ color: "#1E9E5C" }}>· +{Math.round(((savingsNow - budgets.savings) / budgets.savings) * 100)}%</b> : null}</span>
+              <div className="lab" style={{ textAlign: "center", lineHeight: 1.3 }}>
+                <div>{t("ring_ahorro")}{savingsNow > budgets.savings && budgets.savings > 0 ? <b style={{ color: "#1E9E5C" }}> +{Math.round(((savingsNow - budgets.savings) / budgets.savings) * 100)}%</b> : null}</div>
+                <div style={{ fontSize: 9, opacity: 0.7 }}>{t("ring_inversion")}</div>
+              </div>
             </div>
           </div>
         )}
@@ -1129,7 +1113,7 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
             <span style={{ fontSize: 26 }}>{savingsNow >= 0 ? "🎉" : "⚠️"}</span>
             <div>
               <div className="big" style={{ color: savingsNow >= 0 ? "var(--good)" : "var(--warn)" }}>
-                {settings.rolloverSavings ? money(Math.round(gamification.acc), cur) : money(Math.round(savingsNow), cur)}
+                {settings.rolloverSavings ? money(Math.round(accSavings), cur) : money(Math.round(savingsNow), cur)}
               </div>
               <div className="lab" style={{ color: "var(--ink-soft)" }}>
                 {savingsNow < 0 ? t("over_budget") : settings.rolloverSavings ? t("acc_savings") : t("this_month_savings")}
@@ -1149,17 +1133,10 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
       </div>
 
       <div className="mf-card">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div className="mf-h3" style={{ margin: 0 }}>{t("missions_title")}</div>
-          <span style={{ fontFamily: "Baloo 2", fontWeight: 800, fontSize: 12, color: "var(--ink-soft)" }}>+{missions.filter((m) => m.done).reduce((a, m) => a + m.xp, 0)} XP</span>
-        </div>
-        <div style={{ marginTop: 4 }}>{missions.map((m, i) => (
-          <div className="mf-quest" key={i}>
-            <div className={`mf-qbox ${m.done ? "done" : ""}`}>{m.done ? "✓" : ""}</div>
-            <div className={`mf-qtxt ${m.done ? "done" : ""}`}>{m.t}</div>
-            <div className="mf-qxp">+{m.xp}</div>
-          </div>
-        ))}</div>
+        <div className="mf-mascotwrap"><Mascot mood={mood} size={86} /><div className="mf-bubble" key={bubbleIdx % bubblePhrases.length}>{bubbleText}</div></div>
+        <button onClick={() => setTab("ajustes")} style={{ marginTop: 10, width: "100%", display: "flex", alignItems: "center", gap: 8, border: "none", borderRadius: 14, padding: "9px 12px", background: backupBg, color: backupFg, fontWeight: 800, fontSize: 12.5, cursor: "pointer", fontFamily: "inherit" }}>
+          <span style={{ fontSize: 16 }}>🛡️</span><span style={{ flex: 1, textAlign: "left" }}>{backupTxt}</span><span style={{ opacity: .7 }}>{t("backup_save")}</span>
+        </button>
       </div>
 
       <div className="mf-card">
@@ -1230,10 +1207,8 @@ function Añadir({ settings, addTxn, addNoSpend, addIncome, cur, setTab, toastMs
 
       {mode === "gasto" && (<>
         <div className="mf-card">
-          <div className="mf-seg" style={{ justifyContent: "center", marginBottom: 8 }}>
-            {["THB", "USD", "EUR", "BTC"].map((c) => (
-              <button key={c} className={`mf-segp ${ccy === c ? "on" : ""}`} onClick={() => setCcy(c)}>{SYM[c]} {c}</button>
-            ))}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 8 }}>
+            <CcySelect value={ccy} onChange={setCcy} />
           </div>
           <input className="mf-amt" inputMode="decimal" placeholder="0" value={amount} onChange={(e) => setAmount(e.target.value)} autoFocus />
           <div style={{ textAlign: "center", fontWeight: 800, fontSize: 14, color: "var(--ink-soft)", minHeight: 20 }}>
@@ -1258,10 +1233,8 @@ function Añadir({ settings, addTxn, addNoSpend, addIncome, cur, setTab, toastMs
 
       {mode === "ingreso" && (<>
         <div className="mf-card">
-          <div className="mf-seg" style={{ justifyContent: "center", marginBottom: 8 }}>
-            {["EUR", "USD", "THB", "BTC"].map((c) => (
-              <button key={c} className={`mf-segp ${incCcy === c ? "on" : ""}`} onClick={() => setIncCcy(c)}>{SYM[c]} {c}</button>
-            ))}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 8 }}>
+            <CcySelect value={incCcy} onChange={setIncCcy} />
           </div>
           <input className="mf-amt" inputMode="decimal" placeholder="0" value={incAmt} onChange={(e) => setIncAmt(e.target.value)} autoFocus />
         </div>
@@ -1372,9 +1345,7 @@ function Variables({ settings, setSettings, txns, budgets, cur, delTxn, editTxn,
           const c = catOf(tx.cat);
           if (draft && draft.id === tx.id) return (
             <div key={tx.id} style={{ padding: "11px 0", borderBottom: "1px dashed var(--pink-soft)" }}>
-              <div className="mf-seg" style={{ marginBottom: 8 }}>{["THB", "USD", "EUR", "BTC"].map((cc) => (
-                <button key={cc} className={`mf-segp ${draft.ccy === cc ? "on" : ""}`} onClick={() => setDraft((d) => ({ ...d, ccy: cc }))}>{SYM[cc]} {cc}</button>
-              ))}</div>
+              <div style={{ marginBottom: 8 }}><CcySelect value={draft.ccy} onChange={(cc) => setDraft((d) => ({ ...d, ccy: cc }))} /></div>
               <input className="mf-input" style={{ marginBottom: 8 }} inputMode="decimal" value={draft.amount} onChange={(e) => setDraft((d) => ({ ...d, amount: e.target.value }))} />
               <div className="mf-chips" style={{ marginBottom: 8 }}>{cats.map((cc) => (
                 <button key={cc.id} className={`mf-chip2 ${draft.cat === cc.id ? "on" : ""}`} onClick={() => setDraft((d) => ({ ...d, cat: cc.id }))}>{cc.emoji} {catDisplay(cc)}</button>
@@ -1455,9 +1426,7 @@ function Fijos({ fixed, setFixed, settings, setSettings, budgets, fixedM, cur, t
         <div className="mf-h3">{t("add_fixed_title")}</div>
         <div className="mf-field"><label>{t("name_label")}</label><input className="mf-input" placeholder={t("fixed_name_ph")} value={name} onChange={(e) => setName(e.target.value)} /></div>
         <div className="mf-field"><label>{t("currency_label")}</label>
-          <div className="mf-seg">{["THB", "USD", "EUR", "BTC"].map((c) => (
-            <button key={c} className={`mf-segp ${ccy === c ? "on" : ""}`} onClick={() => setCcy(c)}>{SYM[c]} {c}</button>
-          ))}</div>
+          <CcySelect value={ccy} onChange={setCcy} />
         </div>
         <div className="mf-field"><label>{t("amount_label")} ({SYM[ccy]} {ccy})</label><input className="mf-input" inputMode="decimal" placeholder="0" value={amount} onChange={(e) => setAmount(e.target.value)} /></div>
         <div className="mf-field"><label>{t("frequency_label")}</label>
@@ -1476,9 +1445,7 @@ function Fijos({ fixed, setFixed, settings, setSettings, budgets, fixedM, cur, t
               <>
                 <div className="mf-field"><label>{t("name_label")}</label><input className="mf-input" value={f.name} onChange={(e) => updateFixed(f.id, "name", e.target.value)} /></div>
                 <div className="mf-field"><label>{t("currency_label")}</label>
-                  <div className="mf-seg">{["THB", "USD", "EUR", "BTC"].map((c) => (
-                    <button key={c} className={`mf-segp ${(f.cur || "EUR") === c ? "on" : ""}`} onClick={() => updateFixed(f.id, "cur", c)}>{SYM[c]} {c}</button>
-                  ))}</div>
+                  <CcySelect value={f.cur || "EUR"} onChange={(c) => updateFixed(f.id, "cur", c)} />
                 </div>
                 <div className="mf-field" style={{ marginBottom: 8 }}><label>{t("amount_label")} ({SYM[f.cur || "EUR"]})</label>
                   <input className="mf-input" inputMode="decimal" value={f.amount} onChange={(e) => updateFixed(f.id, "amount", e.target.value)} onBlur={(e) => normalizeAmount(f.id, e.target.value)} />
@@ -1503,7 +1470,7 @@ function Fijos({ fixed, setFixed, settings, setSettings, budgets, fixedM, cur, t
 }
 
 /* ---------- RESUMEN ---------- */
-function Resumen({ settings, income, incomeThisMonth, txns, budgets, fixedM, cur, curYm, varSpentCurYm, gamification, fx }) {
+function Resumen({ settings, income, incomeThisMonth, txns, budgets, fixedM, cur, curYm, varSpentCurYm, accSavings, fx }) {
   const varSpent = varSpentCurYm;
   const savingsNow = incomeThisMonth - fixedM - varSpent;
   // serie mensual: hasta 12 meses con actividad + mes actual
@@ -1528,7 +1495,7 @@ function Resumen({ settings, income, incomeThisMonth, txns, budgets, fixedM, cur
         <div className="mf-h3">{t("income_split")}</div>
         <div className="mf-grid2">
           <div className="mf-stat"><div className="v mf-num">{money(Math.round(incomeThisMonth), cur)}</div><div className="l">{t("income_this_month_label")}</div></div>
-          <div className="mf-stat"><div className="v mf-num" style={{ color: "var(--good)" }}>{money(Math.round(gamification.acc), cur)}</div><div className="l">{t("acc_savings_label")}</div></div>
+          <div className="mf-stat"><div className="v mf-num" style={{ color: "var(--good)" }}>{money(Math.round(accSavings), cur)}</div><div className="l">{t("acc_savings_label")}</div></div>
           <div className="mf-stat"><div className="v mf-num" style={{ color: "#3aa06f" }}>{money(Math.round(budgets.fixed), cur)}</div><div className="l">{t("fixed_label")} ({settings.splitFixed}%)</div></div>
           <div className="mf-stat"><div className="v mf-num" style={{ color: "var(--pink)" }}>{money(Math.round(budgets.variable), cur)}</div><div className="l">{t("var_label")} ({settings.splitVar}%)</div></div>
         </div>
@@ -1557,23 +1524,96 @@ function Resumen({ settings, income, incomeThisMonth, txns, budgets, fixedM, cur
 }
 
 /* ---------- LOGROS ---------- */
-function Logros({ gamification }) {
-  const g = gamification;
+/* ---------- AYUDA / FAQ ---------- */
+function Ayuda({ setTab }) {
+  const [open, setOpen] = useState(null);
+  const toggle = (i) => setOpen(open === i ? null : i);
+
+  const faqs = LANG === "en" ? [
+    { section: "🚀 Getting started", items: [
+      { q: "How do I start?", a: "Tap ＋ to log your income for the month. Then go to ⚙️ Settings and set how you split it between fixed expenses, variable expenses and savings." },
+      { q: "Where is my data stored?", a: "Everything stays on your device — nobody else has access. Back up regularly using the 🛡️ button on the home screen." },
+    ]},
+    { section: "🏠 Fixed expenses", items: [
+      { q: "What are fixed expenses?", a: "Recurring costs you pay regularly: rent, subscriptions, gym... Add them once and the app converts them to a monthly amount automatically." },
+      { q: "What do D, S, Q, M, T, A mean?", a: "Daily, Weekly, Bi-weekly, Monthly, Quarterly, Annual — the frequency you pay that expense." },
+    ]},
+    { section: "🛍️ Variable expenses", items: [
+      { q: "What are variable expenses?", a: "Day-to-day spending: food, transport, leisure... Log each one with the ＋ button." },
+      { q: "Can I see my spending by category?", a: "Yes — tap any category bar in the Variables screen to expand all transactions for that category." },
+    ]},
+    { section: "🐷 Savings", items: [
+      { q: "How is my savings calculated?", a: "Income − Fixed expenses (monthly) − Variable expenses = Savings this month." },
+      { q: "What is the savings goal?", a: "The amount you aim to save each month. Set it in ⚙️. The bar at the top of Home shows your progress." },
+    ]},
+    { section: "🏦 Net worth", items: [
+      { q: "What is the net worth screen?", a: "Your total assets: bank accounts, investments, property... Tap the app logo 7 times to access it." },
+      { q: "Does it connect to my bank?", a: "No — you enter values manually. Full control, full privacy." },
+    ]},
+    { section: "₿ BTC", items: [
+      { q: "What is the BTC screen?", a: "It shows the current Bitcoin price and a simulator to calculate what your BTC would be worth at a target price." },
+    ]},
+    { section: "💾 Backup", items: [
+      { q: "Why is backup important?", a: "Your data lives only on this device. If you lose it or reset it, your data is gone. Back up regularly." },
+      { q: "How do I restore my data?", a: "Go to ⚙️ Settings → Restore backup and select your backup file." },
+    ]},
+  ] : [
+    { section: "🚀 Primeros pasos", items: [
+      { q: "¿Cómo empiezo?", a: "Pulsa ＋ para registrar tus ingresos del mes. Luego ve a ⚙️ Ajustes y configura el reparto entre gastos fijos, variables y ahorro." },
+      { q: "¿Dónde se guardan mis datos?", a: "Todo está en tu dispositivo, nadie más tiene acceso. Haz copias de seguridad con el botón 🛡️ de la pantalla de inicio." },
+    ]},
+    { section: "🏠 Gastos Fijos", items: [
+      { q: "¿Qué son los gastos fijos?", a: "Gastos recurrentes: alquiler, suscripciones, gimnasio... Los añades una vez y la app los convierte a coste mensual automáticamente." },
+      { q: "¿Qué significan D, S, Q, M, T, A?", a: "Diario, Semanal, Quincenal, Mensual, Trimestral, Anual. Es la frecuencia con la que pagas ese gasto." },
+    ]},
+    { section: "🛍️ Gastos Variables", items: [
+      { q: "¿Qué son los gastos variables?", a: "Los gastos del día a día: comida, transporte, ocio... Los registras cada vez que gastas con el botón ＋." },
+      { q: "¿Puedo ver mis gastos por categoría?", a: "Sí, toca cualquier categoría o barra en la pantalla de Variables para ver todos sus gastos desglosados." },
+    ]},
+    { section: "🐷 Ahorro", items: [
+      { q: "¿Cómo se calcula el ahorro?", a: "Ingresos − Gastos Fijos (mes) − Gastos Variables = Ahorro del mes." },
+      { q: "¿Qué es el objetivo de ahorro?", a: "El importe que te propones ahorrar cada mes. Lo configuras en ⚙️. La barra de inicio muestra tu progreso." },
+    ]},
+    { section: "🏦 Patrimonio", items: [
+      { q: "¿Qué es el patrimonio?", a: "El valor total de lo que tienes: cuenta corriente, inversiones, inmuebles... Toca el logo de la app 7 veces para acceder." },
+      { q: "¿Se conecta con mi banco?", a: "No. Lo introduces tú manualmente. Control total y privacidad absoluta." },
+    ]},
+    { section: "₿ BTC", items: [
+      { q: "¿Para qué sirve la pantalla BTC?", a: "Muestra el precio actual de Bitcoin y un simulador para calcular cuánto valdría si el precio sube a X." },
+    ]},
+    { section: "💾 Copia de seguridad", items: [
+      { q: "¿Por qué es importante la copia?", a: "Tus datos están solo en este dispositivo. Si lo pierdes o formateas, se pierden. Haz copias regularmente." },
+      { q: "¿Cómo restauro mis datos?", a: "Ve a ⚙️ Ajustes → Restaurar copia y selecciona tu archivo de backup." },
+    ]},
+  ];
+
+  let idx = 0;
   return (
     <div className="mf-page">
-      <h2 className="mf-h2">{t("logros_title")}</h2>
-      <div className="mf-card"><div className="mf-grid2">
-        <div className="mf-stat"><div className="v mf-num">{t("level_abbr", { n: g.level })}</div><div className="l">{t("level_label")}</div></div>
-        <div className="mf-stat"><div className="v mf-num">{g.xp}</div><div className="l">{t("xp_label")}</div></div>
-        <div className="mf-stat"><div className="v mf-num">🔥 {g.streak}</div><div className="l">{t("streak_label")}</div></div>
-        <div className="mf-stat"><div className="v mf-num">{g.badgeCount}/{g.badges.length}</div><div className="l">{t("badges_label")}</div></div>
-      </div></div>
-      <div className="mf-card">
-        <div className="mf-h3">{t("badges_label")}</div>
-        <div className="mf-badges">{g.badges.map((b) => (
-          <div className={`mf-badge ${b.on ? "on" : ""}`} key={b.id}><div className="ic">{b.ic}</div><div className="nm">{b.nm}</div></div>
-        ))}</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+        <button className="mf-btn ghost sm" onClick={() => setTab("inicio")}>{t("back_settings")}</button>
+        <h2 className="mf-h2" style={{ margin: 0 }}>{LANG === "en" ? "❓ Help & FAQ" : "❓ Ayuda y FAQ"}</h2>
       </div>
+      {faqs.map((sec) => (
+        <div className="mf-card" key={sec.section} style={{ padding: "12px 14px" }}>
+          <div className="mf-h3" style={{ marginBottom: 8 }}>{sec.section}</div>
+          {sec.items.map((item) => {
+            const i = idx++;
+            const isOpen = open === i;
+            return (
+              <div key={i} style={{ borderTop: "1px dashed var(--pink-soft)", paddingTop: 10, marginTop: 10 }}>
+                <button onClick={() => toggle(i)} style={{ width: "100%", background: "none", border: "none", padding: 0, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, textAlign: "left", fontFamily: "inherit" }}>
+                  <span style={{ fontWeight: 800, fontSize: 13.5, color: "var(--ink)", lineHeight: 1.35 }}>{item.q}</span>
+                  <span style={{ fontSize: 14, color: "var(--lav)", flexShrink: 0, marginTop: 1 }}>{isOpen ? "▲" : "▼"}</span>
+                </button>
+                {isOpen && (
+                  <div style={{ marginTop: 8, fontSize: 13, color: "var(--ink-soft)", lineHeight: 1.6, paddingLeft: 2 }}>{item.a}</div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }
@@ -1828,7 +1868,7 @@ function Patrimonio({ patrimonio, setPatrimonio, patrimonioHistory, setPatrimoni
 
       {/* Michi Patrimonio enmarcada al pie */}
       <div style={{ display: "flex", justifyContent: "center", marginTop: 18, marginBottom: 4 }}>
-        <div style={{ width: "70%", maxWidth: 260, borderRadius: 22, border: "4px solid var(--lav)", boxShadow: "0 0 0 3px var(--pink-soft), 0 4px 18px rgba(180,120,220,0.18)", overflow: "hidden", lineHeight: 0 }}>
+        <div style={{ width: "70%", maxWidth: 260, borderRadius: 22, boxShadow: "0 4px 18px rgba(180,120,220,0.18)", overflow: "hidden", lineHeight: 0 }}>
           <img src="Michi_Patrimonio.png" alt="" style={{ width: "100%", display: "block" }} />
         </div>
       </div>
@@ -1880,7 +1920,7 @@ function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, do
       <div className="mf-card">
         <div className="mf-h3">{t("chart_display")}</div>
         <div className="mf-seg" style={{ justifyContent: "center", marginBottom: 12 }}>
-          <button className={`mf-segp ${s.chartMode !== "batteries" ? "on" : ""}`} onClick={() => set("chartMode", "donuts")}>{t("donuts_btn")}</button>
+          <button className={`mf-segp ${s.chartMode === "donuts" || !s.chartMode ? "on" : ""}`} onClick={() => set("chartMode", "donuts")}>{t("donuts_btn")}</button>
           <button className={`mf-segp ${s.chartMode === "batteries" ? "on" : ""}`} onClick={() => set("chartMode", "batteries")}>{t("batteries_btn")}</button>
         </div>
         <div className="mf-note">{t("chart_hint")}</div>
@@ -1960,18 +2000,26 @@ function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, do
 /* ---------- CONVERSOR de monedas ฿ / $ / € ---------- */
 const fxRound = (n, d = 2) => { const dp = Math.pow(10, d); const r = Math.round(n * dp) / dp; return Number.isFinite(r) ? String(r) : ""; };
 function fxCalc(src, raw, rates) {
-  const order = ["THB", "USD", "EUR", "BTC"];
   const num = parseFloat(String(raw).replace(",", "."));
-  if (raw === "" || isNaN(num)) { const o = { THB: "", USD: "", EUR: "", BTC: "" }; o[src] = raw; return o; }
+  const empty = Object.fromEntries(CURRENCIES.map((c) => [c, ""]));
+  if (raw === "" || isNaN(num)) { empty[src] = raw; return empty; }
   const eur = num / rates[src];
   const o = {};
-  order.forEach((c) => { o[c] = c === src ? raw : fxRound(eur * rates[c], c === "BTC" ? 8 : 2); });
+  CURRENCIES.forEach((c) => { o[c] = c === src ? raw : fxRound(eur * rates[c], ccyDec(c)); });
   return o;
 }
 const FX_META = [
-  { code: "THB", sym: "฿", flag: "🇹🇭", get desc() { return t("fx_thb_desc"); } },
-  { code: "USD", sym: "$", flag: "🇺🇸", get desc() { return t("fx_usd_desc"); } },
   { code: "EUR", sym: "€", flag: "🇪🇺", get desc() { return t("fx_eur_desc"); } },
+  { code: "USD", sym: "$", flag: "🇺🇸", get desc() { return t("fx_usd_desc"); } },
+  { code: "GBP", sym: "£", flag: "🇬🇧", desc: "Libra · pound" },
+  { code: "JPY", sym: "¥", flag: "🇯🇵", desc: "Yen japonés" },
+  { code: "CHF", sym: "Fr", flag: "🇨🇭", desc: "Franco suizo" },
+  { code: "CAD", sym: "C$", flag: "🇨🇦", desc: "Dólar canadiense" },
+  { code: "AUD", sym: "A$", flag: "🇦🇺", desc: "Dólar australiano" },
+  { code: "MXN", sym: "$", flag: "🇲🇽", desc: "Peso mexicano" },
+  { code: "ARS", sym: "$", flag: "🇦🇷", desc: "Peso argentino *" },
+  { code: "COP", sym: "$", flag: "🇨🇴", desc: "Peso colombiano *" },
+  { code: "THB", sym: "฿", flag: "🇹🇭", get desc() { return t("fx_thb_desc"); } },
   { code: "BTC", sym: "₿", flag: "🟠", get desc() { return t("fx_btc_desc"); } },
 ];
 
@@ -2079,7 +2127,7 @@ function Cafecito() {
 }
 
 /* ---------- BTC ---------- */
-function BtcPage({ gamification, cur, fx }) {
+function BtcPage({ accSavings, cur, fx }) {
   // moneda de visualización del simulador, independiente de la moneda principal de la app: BTC se suele cotizar en dólares
   const [btcCcy, setBtcCcy] = useState("EUR");
   const usdRate = (fx?.rates && fx.rates.USD) || FX_FALLBACK.USD; // $ por 1 €
@@ -2103,7 +2151,7 @@ function BtcPage({ gamification, cur, fx }) {
 
   // simulador: cuánto valdría tu BTC ahora y a un precio objetivo (por defecto x2 o el ATH, el que sea mayor)
   // el texto del input se guarda aparte del número: así se puede escribir "0," o "0,5" sin que se borre a "0" en cada pulsación
-  const defaultBtc = price > 0 && gamification.acc > 0 ? Number((gamification.acc / price).toFixed(6)) : 0.01;
+  const defaultBtc = price > 0 && accSavings > 0 ? Number((accSavings / price).toFixed(6)) : 0.01;
   const [btcAmountStr, setBtcAmountStr] = useState(String(defaultBtc));
   const btcAmount = parseFloat(btcAmountStr.replace(",", ".")) || 0;
   const btcMax = Math.max(0.05, defaultBtc * 4);
