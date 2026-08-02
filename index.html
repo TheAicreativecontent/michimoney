@@ -240,7 +240,7 @@ const T = {
     nav_inicio:"Inicio", nav_variables:"Variables", nav_fijos:"Fijos", nav_resumen:"Resumen", nav_karma:"Karma",
     bubble_noincome:"¡Hola! Añade tus ingresos con el botón ＋ 💰", bubble_zero:"Este mes no te está quedando nada para ahorrar 👀", bubble_great:"¡Vas ahorrando como un campeón este mes! 🌱", bubble_ok:"Vas bien de presupuesto. ¡Sigue así! 💪", bubble_neutral:"Vamos a cuidar tu dinero, paso a pasito 🐾",
     savings_label:"🐷 AHORRO ESTE MES", level_abbr:"Nv {n}", backup_save:"guardar →", backup_never:"¡Nunca hiciste copia!", backup_today:"Copia hecha hoy", backup_yesterday:"Copia: ayer", backup_days:"Copia: hace {n} días",
-    this_month:"Tu mes · {month}", fixed_label:"🏠 Fijos", var_label:"🛍️ Variables", sav_label:"🐷 Ahorro", ring_gastos:"Gastos", ring_ahorro:"Ahorro", ring_inversion:"e inversión", over_budget:"te has pasado este mes", acc_savings:"ahorro acumulado total", this_month_savings:"ahorrado este mes",
+    this_month:"Tu mes · {month}", fixed_label:"🏠 Fijos", var_label:"🛍️ Variables", sav_label:"🐷 Ahorro", ring_gastos:"Gastos", ring_fijos:"Fijos", ring_variables:"Variables", ring_ahorro:"Ahorro", ring_inversion:"e inversión", over_budget:"te has pasado este mes", acc_savings:"ahorro acumulado total", this_month_savings:"ahorrado este mes",
     recent_title:"Últimos movimientos", see_all:"ver todos", no_expenses:"Aún no hay gastos. Toca ＋ para añadir el primero 💕", expense_fallback:"Gasto",
     add_base_currency:"en tu moneda base", add_will_save:"se guardará en", category_label:"Categoría", date_label:"Fecha", note_label:"Nota", optional:"opcional", save_expense_btn:"💸 Guardar gasto", no_spend_btn:"🍃 Hoy no he gastado nada", rate_live_adj:"de hoy", rate_approx_adj:"aprox.", rate_note:"Cambio {rate}: 1 {ccy} = {val}. Se guarda fijado a este valor.", enter_amount:"Pon un importe 🙏",
     var_title:"📂 Gastos variables", spent_this_month:"Gastado este mes", goal_label:"🎯 Tu presupuesto objetivo", goal_hint_var:"opcional, dentro de los {amount} de variables", eg:"Ej.", save_btn:"Guardar", no_var_expenses:"Sin gastos este mes 🌿", movements:"Movimientos ({n})", note_placeholder:"Nota", save_edit_btn:"✓ Guardar", cancel_btn:"Cancelar", nothing_here:"Nada por aquí todavía.", var_goal_saved:"Presupuesto de variables guardado 🎯", var_goal_removed:"Tope de variables quitado", expense_updated:"Gasto actualizado ✏️",
@@ -258,6 +258,7 @@ const T = {
     pat_title:"💎 Patrimonio", pat_secret:"Pantalla secreta · solo tú la ves", pat_asset:"Activo", pat_value:"Valor ({cur})", pat_total:"TOTAL", pat_add_btn:"＋ Añadir activo", pat_name_ph:"Cuenta, inmueble, inversión...", pat_empty:"Toca ＋ para añadir tu primer activo", pat_saved:"Activo guardado 💎", pat_back:"← Salir", pat_view_days:"30d", pat_view_months:"12m", pat_view_years:"Todo", pat_no_history:"Abre esta pantalla otro día para ver la evolución",
     toast_level:"¡Nivel {n}! 🎉", toast_nospend:"¡Día sin gastos! 🍃 +12 XP", toast_reset:"Movimientos reiniciados 🗑️", loading:"Cargando MichiFinanzas…", chart_goal_lbl:"meta ahorro", fixed_name_ph:"Ej. Alquiler, Netflix, gimnasio", new_cat_name:"Nueva", csv_download_btn:"⬇️ Descargar gastos (CSV)",
     import_btn:"📥 Restaurar una copia de seguridad", import_confirm_btn:"¿Sustituir los datos actuales? Toca otra vez", import_ok:"Copia restaurada ✅", import_bad:"Ese archivo no parece una copia de MichiFinanzas 😿",
+    backup_pin_btn:"📌 Elegir archivo fijo de copia", backup_pin_note:"Elige una vez dónde guardar tu copia (Descargas, tu carpeta de Drive...) y la app mantendrá ese archivo siempre al día, sobrescribiéndolo. Sin acumular archivos nuevos.", backup_pinned:"📌 Copia fija: {name}", backup_pin_unlink:"quitar", toast_backup_pinned:"Archivo de copia vinculado 📌", toast_backup_updated:"Copia actualizada en tu archivo 📌",
     tips: [
       "Ingresos en 3 partes: fijos, variables y ahorro 💰",
       "Toca la caja fuerte unas cuantas veces... 👀",
@@ -287,7 +288,7 @@ const T = {
     nav_inicio:"Home", nav_variables:"Expenses", nav_fijos:"Fixed", nav_resumen:"Summary", nav_karma:"Karma",
     bubble_noincome:"Hi! Add your income with the ＋ button 💰", bubble_zero:"You're not saving anything this month 👀", bubble_great:"You're saving like a champion this month! 🌱", bubble_ok:"Budget looking good. Keep it up! 💪", bubble_neutral:"Let's take care of your money, step by step 🐾",
     savings_label:"🐷 SAVINGS THIS MONTH", level_abbr:"Lv {n}", backup_save:"save →", backup_never:"No backup yet!", backup_today:"Backup done today", backup_yesterday:"Backup: yesterday", backup_days:"Backup: {n} days ago",
-    this_month:"This month · {month}", fixed_label:"🏠 Fixed", var_label:"🛍️ Variable", sav_label:"🐷 Savings", ring_gastos:"Expenses", ring_ahorro:"Savings", ring_inversion:"& investment", over_budget:"over budget this month", acc_savings:"total accumulated savings", this_month_savings:"saved this month",
+    this_month:"This month · {month}", fixed_label:"🏠 Fixed", var_label:"🛍️ Variable", sav_label:"🐷 Savings", ring_gastos:"Expenses", ring_fijos:"Fixed", ring_variables:"Variable", ring_ahorro:"Savings", ring_inversion:"& investment", over_budget:"over budget this month", acc_savings:"total accumulated savings", this_month_savings:"saved this month",
     recent_title:"Recent transactions", see_all:"see all", no_expenses:"No expenses yet. Tap ＋ to add your first one 💕", expense_fallback:"Expense",
     add_base_currency:"in your base currency", add_will_save:"will be saved in", category_label:"Category", date_label:"Date", note_label:"Note", optional:"optional", save_expense_btn:"💸 Save expense", no_spend_btn:"🍃 No expenses today", rate_live_adj:"today's", rate_approx_adj:"approx.", rate_note:"{rate} rate: 1 {ccy} = {val}. Saved at this rate.", enter_amount:"Enter an amount 🙏",
     var_title:"📂 Variable expenses", spent_this_month:"Spent this month", goal_label:"🎯 Your target budget", goal_hint_var:"optional, within your {amount} variable budget", eg:"E.g.", save_btn:"Save", no_var_expenses:"No expenses this month 🌿", movements:"Transactions ({n})", note_placeholder:"Note", save_edit_btn:"✓ Save", cancel_btn:"Cancel", nothing_here:"Nothing here yet.", var_goal_saved:"Variable budget saved 🎯", var_goal_removed:"Variable limit removed", expense_updated:"Expense updated ✏️",
@@ -305,6 +306,7 @@ const T = {
     pat_title:"💎 Net Worth", pat_secret:"Secret screen · only you see this", pat_asset:"Asset", pat_value:"Value ({cur})", pat_total:"TOTAL", pat_add_btn:"＋ Add asset", pat_name_ph:"Account, real estate, investment...", pat_empty:"Tap ＋ to add your first asset", pat_saved:"Asset saved 💎", pat_back:"← Back", pat_view_days:"30d", pat_view_months:"12m", pat_view_years:"All", pat_no_history:"Open this screen another day to see the evolution",
     toast_level:"Level {n}! 🎉", toast_nospend:"No-spend day! 🍃 +12 XP", toast_reset:"Data reset 🗑️", loading:"Loading MichiFinances…", chart_goal_lbl:"savings goal", fixed_name_ph:"E.g. Rent, Netflix, gym", new_cat_name:"New", csv_download_btn:"⬇️ Download expenses (CSV)",
     import_btn:"📥 Restore a backup", import_confirm_btn:"Replace your current data? Tap again", import_ok:"Backup restored ✅", import_bad:"That file doesn't look like a MichiFinances backup 😿",
+    backup_pin_btn:"📌 Choose a fixed backup file", backup_pin_note:"Pick once where to keep your backup (Downloads, your synced Drive folder...) and the app will keep that same file up to date by overwriting it. No more piling up new files.", backup_pinned:"📌 Fixed backup: {name}", backup_pin_unlink:"unlink", toast_backup_pinned:"Backup file linked 📌", toast_backup_updated:"Backup file updated 📌",
     tips: [
       "Income in 3 pots: fixed, variable and savings 💰",
       "Tap the safe a few times... 👀",
@@ -501,6 +503,33 @@ async function shareOrDownloadBackup(settings, fixed, txns, income, patrimonio, 
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   recordBackup();
   return "downloaded";
+}
+
+/* ---------- archivo fijo de copia (File System Access API; Chrome/Edge/Android; en iOS no existe) ---------- */
+const FSA_OK = typeof window !== "undefined" && "showSaveFilePicker" in window;
+// mini almacen clave-valor en IndexedDB: los FileHandle no caben en localStorage
+const idbOpen = () => new Promise((res, rej) => {
+  const r = indexedDB.open("mf_fin_db", 1);
+  r.onupgradeneeded = () => { r.result.createObjectStore("kv"); };
+  r.onsuccess = () => res(r.result);
+  r.onerror = () => rej(r.error);
+});
+const idbGet = async (k) => { try { const db = await idbOpen(); return await new Promise((res, rej) => { const q = db.transaction("kv").objectStore("kv").get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); } catch (e) { return null; } };
+const idbSet = async (k, v) => { try { const db = await idbOpen(); await new Promise((res, rej) => { const q = db.transaction("kv", "readwrite").objectStore("kv").put(v, k); q.onsuccess = () => res(); q.onerror = () => rej(q.error); }); return true; } catch (e) { return false; } };
+const idbDel = async (k) => { try { const db = await idbOpen(); await new Promise((res, rej) => { const q = db.transaction("kv", "readwrite").objectStore("kv").delete(k); q.onsuccess = () => res(); q.onerror = () => rej(q.error); }); } catch (e) {} };
+
+// escribe la copia en el archivo vinculado; false si no hay permiso o falla (el que llama hace fallback)
+async function writeBackupToHandle(handle, blob, interactive) {
+  try {
+    let perm = handle.queryPermission ? await handle.queryPermission({ mode: "readwrite" }) : "granted";
+    if (perm !== "granted" && interactive && handle.requestPermission) perm = await handle.requestPermission({ mode: "readwrite" });
+    if (perm !== "granted") return false;
+    const w = await handle.createWritable();
+    await w.write(blob);
+    await w.close();
+    recordBackup();
+    return true;
+  } catch (e) { return false; }
 }
 
 /* ---------- mascota ---------- */
@@ -738,6 +767,14 @@ function App() {
   const [toast, setToast] = useState(null);
   const [burst, setBurst] = useState(0);
   const [lastBackup, setLastBackup] = useState(() => getLastBackup());
+  // archivo fijo de copia: recuperar el enlace guardado (si el navegador soporta la API)
+  const [backupHandle, setBackupHandle] = useState(null);
+  const [backupFileName, setBackupFileName] = useState("");
+  const [handleReady, setHandleReady] = useState(!FSA_OK);
+  useEffect(() => {
+    if (!FSA_OK) return;
+    idbGet("backupHandle").then((h) => { if (h) { setBackupHandle(h); setBackupFileName(h.name || ""); } }).finally(() => setHandleReady(true));
+  }, []);
   const toastMsg = useCallback((m) => setToast({ m, id: Date.now() }), []);
 
   useEffect(() => {
@@ -757,15 +794,20 @@ function App() {
   // copia de seguridad automática: una vez al día, si hay algo que respaldar, se guarda sola (silenciosa, sin pedir compartir)
   const backedUpToday = useRef(false);
   useEffect(() => {
-    if (!loaded || backedUpToday.current) return;
+    if (!loaded || !handleReady || backedUpToday.current) return;
     const hasData = income.length > 0 || fixed.length > 0 || txns.length > 0 || patrimonio.length > 0;
     if (!hasData || getLastBackup() === todayISO()) return;
     backedUpToday.current = true;
-    shareOrDownloadBackup(settings, fixed, txns, income, patrimonio, patrimonioHistory, true).then(() => {
+    (async () => {
+      if (backupHandle) {
+        const ok = await writeBackupToHandle(backupHandle, buildBackupBlob(settings, fixed, txns, income, patrimonio, patrimonioHistory), false);
+        if (ok) { setLastBackup(getLastBackup()); toastMsg(t("toast_backup_updated")); return; }
+      }
+      await shareOrDownloadBackup(settings, fixed, txns, income, patrimonio, patrimonioHistory, true);
       setLastBackup(getLastBackup());
       toastMsg(t("toast_auto_backup"));
-    });
-  }, [loaded, settings, fixed, txns, income, patrimonio, patrimonioHistory]);
+    })();
+  }, [loaded, handleReady, backupHandle, settings, fixed, txns, income, patrimonio, patrimonioHistory]);
 
   // restaurar una copia de seguridad JSON: sustituye todos los datos por los del archivo
   const applyBackup = useCallback((payload) => {
@@ -780,11 +822,31 @@ function App() {
   }, []);
 
   const doManualBackup = useCallback(async () => {
+    if (backupHandle) {
+      const ok = await writeBackupToHandle(backupHandle, buildBackupBlob(settings, fixed, txns, income, patrimonio, patrimonioHistory), true);
+      if (ok) { setLastBackup(getLastBackup()); toastMsg(t("toast_backup_updated")); return; }
+    }
     const r = await shareOrDownloadBackup(settings, fixed, txns, income, patrimonio, patrimonioHistory, false);
     setLastBackup(getLastBackup());
     if (r === "shared") toastMsg(t("toast_backup_shared"));
     else if (r === "downloaded") toastMsg(t("toast_backup_downloaded"));
-  }, [settings, fixed, txns, income, patrimonio, patrimonioHistory]);
+  }, [backupHandle, settings, fixed, txns, income, patrimonio, patrimonioHistory]);
+
+  // vincular / desvincular el archivo fijo de copia
+  const choosePinnedFile = useCallback(async () => {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: "michifinanzas-backup.json",
+        types: [{ description: "MichiFinanzas backup (JSON)", accept: { "application/json": [".json"] } }],
+      });
+      await idbSet("backupHandle", handle);
+      setBackupHandle(handle); setBackupFileName(handle.name || "");
+      const ok = await writeBackupToHandle(handle, buildBackupBlob(settings, fixed, txns, income, patrimonio, patrimonioHistory), true);
+      if (ok) setLastBackup(getLastBackup());
+      toastMsg(t("toast_backup_pinned"));
+    } catch (e) {} // cancelado por el usuario
+  }, [settings, fixed, txns, income, patrimonio, patrimonioHistory, toastMsg]);
+  const unlinkPinned = useCallback(() => { idbDel("backupHandle"); setBackupHandle(null); setBackupFileName(""); }, []);
 
   const sk = useRef(false), fk = useRef(false), tk = useRef(false), ik = useRef(false);
   useEffect(() => { if (!loaded) return; if (!sk.current) { sk.current = true; return; } storage.set("mf_fin_settings", JSON.stringify(settings)).catch(() => {}); }, [settings, loaded]);
@@ -892,7 +954,7 @@ function App() {
   }
 
   const cur = settings.currency || "€";
-  const ctx = { settings, setSettings, fixed, setFixed, txns, addTxn, addNoSpend, delTxn, editTxn, income, setIncome, addIncome, incomeThisMonth, budgets, fixedM, cur, curYm, varSpentCurYm, accSavings, setTab, toastMsg, onReset, fx, lastBackup, doManualBackup, applyBackup, lang, changeLang, patrimonio, setPatrimonio, patrimonioHistory, setPatrimonioHistory };
+  const ctx = { settings, setSettings, fixed, setFixed, txns, addTxn, addNoSpend, delTxn, editTxn, income, setIncome, addIncome, incomeThisMonth, budgets, fixedM, cur, curYm, varSpentCurYm, accSavings, setTab, toastMsg, onReset, fx, lastBackup, doManualBackup, applyBackup, choosePinnedFile, unlinkPinned, backupFileName, lang, changeLang, patrimonio, setPatrimonio, patrimonioHistory, setPatrimonioHistory };
   const NAV = [
     { id: "inicio", img: "ICO_Home.png", l: t("nav_inicio") },
     { id: "fijos", img: "ICO_Fix.png", l: t("nav_fijos") },
@@ -1017,12 +1079,12 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
             <div className="mf-ring" onClick={() => setTab("fijos")} style={{ cursor: "pointer" }}>
               <Battery value={fixedM} max={budgets.fixed || 1} color="#6FBEEF" track="#DCF0FC" overColor="#E8453C" goalPct={goalFixedPct} size={96}
                 center={<div className="mf-ringval" style={{ fontSize: 12 }}>{fmt(Math.round(fixedM))}</div>}
-                label={<><div style={{ fontSize: 10, lineHeight: 1.2, opacity: 0.7 }}>{t("ring_gastos")}</div><div>{t("nav_fijos")}</div></>} />
+                label={<><div style={{ fontSize: 10, lineHeight: 1.2, opacity: 0.7 }}>{t("ring_gastos")}</div><div>{t("ring_fijos")}</div></>} />
             </div>
             <div className="mf-ring" onClick={() => setTab("variables")} style={{ cursor: "pointer" }}>
               <Battery value={varSpent} max={budgets.variable || 1} color="#FF8FA8" track="#FFD9E3" overColor="#E8453C" goalPct={goalVarPct} size={96}
                 center={<div className="mf-ringval" style={{ fontSize: 12 }}>{fmt(Math.round(varSpent))}</div>}
-                label={<><div style={{ fontSize: 10, lineHeight: 1.2, opacity: 0.7 }}>{t("ring_gastos")}</div><div>{t("nav_variables")}</div></>} />
+                label={<><div style={{ fontSize: 10, lineHeight: 1.2, opacity: 0.7 }}>{t("ring_gastos")}</div><div>{t("ring_variables")}</div></>} />
             </div>
             <div className="mf-ring" onClick={() => setTab("resumen")} style={{ cursor: "pointer" }}>
               <Battery value={Math.max(0, savingsNow)} max={budgets.savings || 1} color="#9AE6B4" track="#E1F7E9" overColor="#1E9E5C" size={96}
@@ -1037,7 +1099,7 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
                 center={<div className="mf-ringval">{fmt(Math.round(fixedM))}<br/><small>/{fmt(Math.round(budgets.fixed))}</small></div>} />
               <div className="lab" style={{ textAlign: "center", lineHeight: 1.3 }}>
                 <div style={{ fontSize: 9, opacity: 0.7 }}>{t("ring_gastos")}</div>
-                <div>{t("nav_fijos")}{fixedM > budgets.fixed && budgets.fixed > 0 ? <b style={{ color: "#E8453C" }}> +{Math.round(((fixedM - budgets.fixed) / budgets.fixed) * 100)}%</b> : null}</div>
+                <div>{t("ring_fijos")}{fixedM > budgets.fixed && budgets.fixed > 0 ? <b style={{ color: "#E8453C" }}> +{Math.round(((fixedM - budgets.fixed) / budgets.fixed) * 100)}%</b> : null}</div>
               </div>
             </div>
             <div className="mf-ring" onClick={() => setTab("variables")} style={{ cursor: "pointer" }}>
@@ -1045,7 +1107,7 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
                 center={<div className="mf-ringval">{fmt(Math.round(varSpent))}<br/><small>/{fmt(Math.round(budgets.variable))}</small></div>} />
               <div className="lab" style={{ textAlign: "center", lineHeight: 1.3 }}>
                 <div style={{ fontSize: 9, opacity: 0.7 }}>{t("ring_gastos")}</div>
-                <div>{t("nav_variables")}{varSpent > budgets.variable && budgets.variable > 0 ? <b style={{ color: "#E8453C" }}> +{Math.round(((varSpent - budgets.variable) / budgets.variable) * 100)}%</b> : null}</div>
+                <div>{t("ring_variables")}{varSpent > budgets.variable && budgets.variable > 0 ? <b style={{ color: "#E8453C" }}> +{Math.round(((varSpent - budgets.variable) / budgets.variable) * 100)}%</b> : null}</div>
               </div>
             </div>
             <div className="mf-ring" onClick={() => setTab("resumen")} style={{ cursor: "pointer" }}>
@@ -1536,7 +1598,7 @@ function Ayuda({ setTab }) {
     ]},
     { section: "🏠 Fixed expenses", items: [
       { q: "What are fixed expenses?", a: "Recurring costs you pay regularly: rent, subscriptions, gym... Add them once and the app converts them to a monthly amount automatically." },
-      { q: "What do D, S, Q, M, T, A mean?", a: "Daily, Weekly, Bi-weekly, Monthly, Quarterly, Annual — the frequency you pay that expense." },
+      { q: "What do D, W, 2W, M, Q, Y mean?", a: "Daily, Weekly, Bi-weekly, Monthly, Quarterly, Yearly. It is the frequency you pay that expense." },
     ]},
     { section: "🛍️ Variable expenses", items: [
       { q: "What are variable expenses?", a: "Day-to-day spending: food, transport, leisure... Log each one with the ＋ button." },
@@ -1556,6 +1618,7 @@ function Ayuda({ setTab }) {
     { section: "💾 Backup", items: [
       { q: "Why is backup important?", a: "Your data lives only on this device. If you lose it or reset it, your data is gone. Back up regularly." },
       { q: "How do I restore my data?", a: "Go to ⚙️ Settings → Restore backup and select your backup file." },
+      { q: "Can I always use the same backup file?", a: "Yes. In ⚙️ Settings → Choose a fixed backup file, pick once where to keep it (Downloads, your synced Drive folder, a USB drive...) and the app keeps that same file up to date instead of piling up new ones. Available on Chrome, Edge and Android; on iPhone the usual share/download is used." },
     ]},
   ] : [
     { section: "🚀 Primeros pasos", items: [
@@ -1584,6 +1647,7 @@ function Ayuda({ setTab }) {
     { section: "💾 Copia de seguridad", items: [
       { q: "¿Por qué es importante la copia?", a: "Tus datos están solo en este dispositivo. Si lo pierdes o formateas, se pierden. Haz copias regularmente." },
       { q: "¿Cómo restauro mis datos?", a: "Ve a ⚙️ Ajustes → Restaurar copia y selecciona tu archivo de backup." },
+      { q: "¿Puedo usar siempre el mismo archivo de copia?", a: "Sí. En ⚙️ Ajustes → Elegir archivo fijo de copia, decides una sola vez dónde guardarlo (Descargas, tu carpeta de Drive, un USB...) y la app mantiene ese mismo archivo al día en lugar de acumular archivos nuevos. Disponible en Chrome, Edge y Android; en iPhone se usa el compartir/descargar de siempre." },
     ]},
   ];
 
@@ -1877,7 +1941,7 @@ function Patrimonio({ patrimonio, setPatrimonio, patrimonioHistory, setPatrimoni
 }
 
 /* ---------- AJUSTES ---------- */
-function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, doManualBackup, applyBackup, setTab, lang, changeLang }) {
+function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, doManualBackup, applyBackup, choosePinnedFile, unlinkPinned, backupFileName, setTab, lang, changeLang }) {
   const [s, setS] = useState(settings);
   const [confirmReset, setConfirmReset] = useState(false);
   const [confirmImport, setConfirmImport] = useState(false);
@@ -1982,6 +2046,16 @@ function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, do
           onClick={() => { if (confirmImport) { importRef.current && importRef.current.click(); } else setConfirmImport(true); }}>
           {confirmImport ? t("import_confirm_btn") : t("import_btn")}
         </button>
+        {FSA_OK && (backupFileName ? (
+          <div className="mf-note" style={{ marginTop: 10 }}>
+            {t("backup_pinned", { name: backupFileName })} · <button className="mf-link" onClick={unlinkPinned}>{t("backup_pin_unlink")}</button>
+          </div>
+        ) : (
+          <>
+            <button className="mf-btn ghost" style={{ marginTop: 8 }} onClick={choosePinnedFile}>{t("backup_pin_btn")}</button>
+            <div className="mf-note">{t("backup_pin_note")}</div>
+          </>
+        ))}
       </div>
 
       <button className="mf-btn primary" onClick={save}>{t("save_settings_btn")}</button>
