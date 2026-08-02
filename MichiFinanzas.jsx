@@ -284,6 +284,16 @@ const addDays = (iso, n) => { const d = new Date(iso + "T00:00:00"); d.setDate(d
 const fmt = (n, d = 0) => (n === null || n === undefined || isNaN(n)) ? "—" : Number(n).toLocaleString("es-ES", { minimumFractionDigits: d, maximumFractionDigits: d });
 const money = (n, cur = "€", d) => (n === null || n === undefined || isNaN(n)) ? "—" : fmt(n, d != null ? d : (Number.isInteger(Number(n)) ? 0 : 2)) + " " + cur;
 const uid = () => Math.random().toString(36).slice(2, 9);
+// filtra lo que se escribe (o pega) en un campo numerico: solo digitos y un separador decimal
+const numOnly = (raw, decimals = true) => {
+  let v = String(raw == null ? "" : raw).replace(decimals ? /[^0-9.,]/g : /[^0-9]/g, "");
+  if (!decimals) return v;
+  const sep = v.search(/[.,]/);
+  if (sep !== -1) v = v.slice(0, sep + 1) + v.slice(sep + 1).replace(/[.,]/g, "");
+  return v;
+};
+// porcentajes: entero de 0 a 100
+const pctOnly = (raw) => { const v = numOnly(raw, false); return v === "" ? "" : String(Math.min(100, parseInt(v, 10))); };
 const ymOf = (iso) => (iso || "").slice(0, 7);
 const ymToLabel = (ym) => { const [y, m] = ym.split("-"); return (T[LANG].months || T.en.months)[(+m) - 1] + " " + y; };
 const ymShift = (ym, n) => { const [y, m] = ym.split("-").map(Number); const d = new Date(y, m - 1 + n, 1); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0"); };
@@ -1287,7 +1297,7 @@ function Añadir({ settings, addTxn, addNoSpend, addIncome, cur, setTab, toastMs
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 8 }}>
             <CcySelect value={ccy} onChange={setCcy} />
           </div>
-          <input className="mf-amt" inputMode="decimal" placeholder="0" value={amount} onChange={(e) => setAmount(e.target.value)} autoFocus />
+          <input className="mf-amt" inputMode="decimal" placeholder="0" value={amount} onChange={(e) => setAmount(numOnly(e.target.value))} autoFocus />
           <div style={{ textAlign: "center", fontWeight: 800, fontSize: 14, color: "var(--ink-soft)", minHeight: 20 }}>
             {ccy === "EUR" ? t("add_base_currency") : (eur != null ? "≈ " + money(eur, cur) : t("add_will_save") + " " + cur)}
           </div>
@@ -1313,7 +1323,7 @@ function Añadir({ settings, addTxn, addNoSpend, addIncome, cur, setTab, toastMs
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 8 }}>
             <CcySelect value={incCcy} onChange={setIncCcy} />
           </div>
-          <input className="mf-amt" inputMode="decimal" placeholder="0" value={incAmt} onChange={(e) => setIncAmt(e.target.value)} autoFocus />
+          <input className="mf-amt" inputMode="decimal" placeholder="0" value={incAmt} onChange={(e) => setIncAmt(numOnly(e.target.value))} autoFocus />
         </div>
         <div className="mf-card">
           <div className="mf-field" style={{ marginBottom: 0 }}>
@@ -1377,7 +1387,7 @@ function Variables({ settings, setSettings, txns, budgets, cur, delTxn, editTxn,
         <div className="mf-field" style={{ marginTop: 12, marginBottom: 0 }}>
           <label>{t("goal_label")} <span className="hint">({t("goal_hint_var", { amount: money(Math.round(budgets.variable), cur) })})</span></label>
           <div className="mf-inrow">
-            <input className="mf-input" inputMode="decimal" placeholder={`${t("eg")} ${Math.round(budgets.variable * 0.9)}`} value={goalDraft} onChange={(e) => setGoalDraft(e.target.value)} />
+            <input className="mf-input" inputMode="decimal" placeholder={`${t("eg")} ${Math.round(budgets.variable * 0.9)}`} value={goalDraft} onChange={(e) => setGoalDraft(numOnly(e.target.value))} />
             <button className="mf-btn primary sm" onClick={saveGoal} style={{ flex: "0 0 auto" }}>{t("save_btn")}</button>
           </div>
         </div>
@@ -1423,7 +1433,7 @@ function Variables({ settings, setSettings, txns, budgets, cur, delTxn, editTxn,
           if (draft && draft.id === tx.id) return (
             <div key={tx.id} style={{ padding: "11px 0", borderBottom: "1px dashed var(--pink-soft)" }}>
               <div style={{ marginBottom: 8 }}><CcySelect value={draft.ccy} onChange={(cc) => setDraft((d) => ({ ...d, ccy: cc }))} /></div>
-              <input className="mf-input" style={{ marginBottom: 8 }} inputMode="decimal" value={draft.amount} onChange={(e) => setDraft((d) => ({ ...d, amount: e.target.value }))} />
+              <input className="mf-input" style={{ marginBottom: 8 }} inputMode="decimal" value={draft.amount} onChange={(e) => setDraft((d) => ({ ...d, amount: numOnly(e.target.value) }))} />
               <div className="mf-chips" style={{ marginBottom: 8 }}>{cats.map((cc) => (
                 <button key={cc.id} className={`mf-chip2 ${draft.cat === cc.id ? "on" : ""}`} onClick={() => setDraft((d) => ({ ...d, cat: cc.id }))}>{cc.emoji} {catDisplay(cc)}</button>
               ))}</div>
@@ -1493,7 +1503,7 @@ function Fijos({ fixed, setFixed, settings, setSettings, budgets, fixedM, cur, t
         <div className="mf-field" style={{ marginTop: 12, marginBottom: 0 }}>
           <label>{t("goal_label")} <span className="hint">({t("goal_hint_fixed", { amount: money(Math.round(budgets.fixed), cur) })})</span></label>
           <div className="mf-inrow">
-            <input className="mf-input" inputMode="decimal" placeholder={`${t("eg")} ${Math.round(budgets.fixed * 0.9)}`} value={goalDraft} onChange={(e) => setGoalDraft(e.target.value)} />
+            <input className="mf-input" inputMode="decimal" placeholder={`${t("eg")} ${Math.round(budgets.fixed * 0.9)}`} value={goalDraft} onChange={(e) => setGoalDraft(numOnly(e.target.value))} />
             <button className="mf-btn primary sm" onClick={saveGoal} style={{ flex: "0 0 auto" }}>{t("save_btn")}</button>
           </div>
         </div>
@@ -1501,11 +1511,11 @@ function Fijos({ fixed, setFixed, settings, setSettings, budgets, fixedM, cur, t
 
       <div className="mf-card">
         <div className="mf-h3">{t("add_fixed_title")}</div>
-        <div className="mf-field"><label>{t("name_label")}</label><input className="mf-input" placeholder={t("fixed_name_ph")} value={name} onChange={(e) => setName(e.target.value)} /></div>
+        <div className="mf-field"><label>{t("name_label")}</label><input className="mf-input" placeholder={t("fixed_name_ph")} maxLength={60} value={name} onChange={(e) => setName(e.target.value)} /></div>
         <div className="mf-field"><label>{t("currency_label")}</label>
           <CcySelect value={ccy} onChange={setCcy} />
         </div>
-        <div className="mf-field"><label>{t("amount_label")} ({SYM[ccy]} {ccy})</label><input className="mf-input" inputMode="decimal" placeholder="0" value={amount} onChange={(e) => setAmount(e.target.value)} /></div>
+        <div className="mf-field"><label>{t("amount_label")} ({SYM[ccy]} {ccy})</label><input className="mf-input" inputMode="decimal" placeholder="0" value={amount} onChange={(e) => setAmount(numOnly(e.target.value))} /></div>
         <div className="mf-field"><label>{t("frequency_label")}</label>
           <div className="mf-seg">{RECUR.map((r) => (
             <button key={r.k} className={`mf-segp ${rec === r.k ? "on" : ""}`} onClick={() => setRec(r.k)} title={recurLabel(r.k)}>{recurAbbr(r.k)}</button>
@@ -1520,12 +1530,12 @@ function Fijos({ fixed, setFixed, settings, setSettings, budgets, fixedM, cur, t
           <div key={f.id} style={{ padding: "11px 0", borderBottom: "1px dashed var(--pink-soft)" }}>
             {editingId === f.id ? (
               <>
-                <div className="mf-field"><label>{t("name_label")}</label><input className="mf-input" value={f.name} onChange={(e) => updateFixed(f.id, "name", e.target.value)} /></div>
+                <div className="mf-field"><label>{t("name_label")}</label><input className="mf-input" maxLength={60} value={f.name} onChange={(e) => updateFixed(f.id, "name", e.target.value)} /></div>
                 <div className="mf-field"><label>{t("currency_label")}</label>
                   <CcySelect value={f.cur || "EUR"} onChange={(c) => updateFixed(f.id, "cur", c)} />
                 </div>
                 <div className="mf-field" style={{ marginBottom: 8 }}><label>{t("amount_label")} ({SYM[f.cur || "EUR"]})</label>
-                  <input className="mf-input" inputMode="decimal" value={f.amount} onChange={(e) => updateFixed(f.id, "amount", e.target.value)} onBlur={(e) => normalizeAmount(f.id, e.target.value)} />
+                  <input className="mf-input" inputMode="decimal" value={f.amount} onChange={(e) => updateFixed(f.id, "amount", numOnly(e.target.value))} onBlur={(e) => normalizeAmount(f.id, e.target.value)} />
                 </div>
                 <button className="mf-btn primary sm" onClick={() => setEditingId(null)}>{t("done_btn")}</button>
               </>
@@ -1907,8 +1917,8 @@ function Patrimonio({ patrimonio, setPatrimonio, patrimonioHistory, setPatrimoni
           <div key={e.id} style={{ display: "grid", gridTemplateColumns: "1fr auto auto auto", alignItems: "center", padding: "10px 14px", gap: 6, borderBottom: i < patrimonio.length - 1 ? "1px dashed var(--pink-soft)" : "none" }}>
             {editId === e.id ? (
               <>
-                <input className="mf-input" style={{ padding: "4px 8px", fontSize: 13 }} value={editName} onChange={ev => setEditName(ev.target.value)} />
-                <input className="mf-input" style={{ padding: "4px 8px", fontSize: 13, width: 78, textAlign: "right" }} inputMode="decimal" value={editValue} onChange={ev => setEditValue(ev.target.value)} />
+                <input className="mf-input" style={{ padding: "4px 8px", fontSize: 13 }} maxLength={80} value={editName} onChange={ev => setEditName(ev.target.value)} />
+                <input className="mf-input" style={{ padding: "4px 8px", fontSize: 13, width: 78, textAlign: "right" }} inputMode="decimal" value={editValue} onChange={ev => setEditValue(numOnly(ev.target.value))} />
                 <button className="x" onClick={saveEdit} style={{ color: "var(--good)", fontWeight: 900 }}>✓</button>
                 <button className="x" onClick={() => setEditId(null)}>✕</button>
               </>
@@ -1940,7 +1950,7 @@ function Patrimonio({ patrimonio, setPatrimonio, patrimonioHistory, setPatrimoni
         </div>
         <div className="mf-field" style={{ marginBottom: 12 }}>
           <label>{t("pat_value", { cur })}</label>
-          <input className="mf-input" inputMode="decimal" placeholder="0" value={value} onChange={(e) => setValue(e.target.value)} />
+          <input className="mf-input" inputMode="decimal" placeholder="0" value={value} onChange={(e) => setValue(numOnly(e.target.value))} />
         </div>
         <button className="mf-btn primary" onClick={add}>{t("pat_add_btn")}</button>
       </div>
@@ -1973,7 +1983,7 @@ function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, do
     } catch (err) { toastMsg(t("import_bad")); }
   };
   const set = (k, v) => setS((x) => ({ ...x, [k]: v }));
-  const setNum = (k, v) => setS((x) => ({ ...x, [k]: v === "" ? "" : Number(v) }));
+  const setNum = (k, v) => { const c = pctOnly(v); setS((x) => ({ ...x, [k]: c === "" ? "" : Number(c) })); };
   const sum = (Number(s.splitFixed) || 0) + (Number(s.splitVar) || 0) + (Number(s.splitSav) || 0);
 
   const setCat = (i, field, v) => setS((x) => { const cs = [...(x.categories || [])]; cs[i] = { ...cs[i], [field]: v }; return { ...x, categories: cs }; });
@@ -2040,8 +2050,8 @@ function Ajustes({ settings, setSettings, cur, toastMsg, onReset, lastBackup, do
         <div className="mf-h3">{t("cats_section")}</div>
         {(s.categories || []).map((c, i) => (
           <div className="mf-tx" key={c.id} style={{ padding: "8px 0" }}>
-            <input className="mf-input" style={{ width: 56, textAlign: "center", padding: "10px 4px", flex: "0 0 auto" }} value={c.emoji} onChange={(e) => setCat(i, "emoji", e.target.value)} />
-            <input className="mf-input" style={{ fontSize: 14 }} value={catDisplay(c)} onChange={(e) => setCat(i, "name", e.target.value)} />
+            <input className="mf-input" style={{ width: 56, textAlign: "center", padding: "10px 4px", flex: "0 0 auto" }} maxLength={4} value={c.emoji} onChange={(e) => setCat(i, "emoji", e.target.value)} />
+            <input className="mf-input" style={{ fontSize: 14 }} maxLength={30} value={catDisplay(c)} onChange={(e) => setCat(i, "name", e.target.value)} />
             <button className="x" onClick={() => delCat(i)}>✕</button>
           </div>
         ))}
@@ -2147,7 +2157,7 @@ function Conversor({ fx }) {
           <div className="mf-field" key={m.code} style={{ marginBottom: 14 }}>
             <label>{m.flag} {m.code} <span className="hint">· {m.desc}</span></label>
             <div className="mf-inrow" style={{ alignItems: "stretch" }}>
-              <input className="mf-input" inputMode="decimal" value={vals[m.code]} onChange={(e) => onChange(m.code, e.target.value)} placeholder="0" />
+              <input className="mf-input" inputMode="decimal" value={vals[m.code]} onChange={(e) => onChange(m.code, numOnly(e.target.value))} placeholder="0" />
               <div style={{ flex: "0 0 auto", display: "grid", placeItems: "center", minWidth: 50, fontFamily: "Baloo 2", fontWeight: 800, fontSize: 20, color: "var(--ink-soft)" }}>{m.sym}</div>
             </div>
           </div>
@@ -2297,13 +2307,13 @@ function BtcPage({ accSavings, cur, fx }) {
         <div className="mf-h3">{t("btc_sim_title")}</div>
         <div className="mf-field" style={{ marginBottom: 4 }}>
           <label>{t("btc_amount_label")}</label>
-          <input className="mf-input" inputMode="decimal" value={btcAmountStr} onChange={(e) => setBtcAmountStr(e.target.value)} />
+          <input className="mf-input" inputMode="decimal" value={btcAmountStr} onChange={(e) => setBtcAmountStr(numOnly(e.target.value))} />
           <input className="mf-range" type="range" min="0" max={btcMax} step="0.0001" value={btcAmount}
             onChange={(e) => setBtcAmountStr(e.target.value)} />
         </div>
         <div className="mf-field" style={{ marginBottom: 0 }}>
           <label>{t("btc_target_label", { cur: dispCur })}</label>
-          <input className="mf-input" inputMode="decimal" value={targetPriceStr} onChange={(e) => { targetTouched.current = true; setTargetPriceStr(e.target.value); }} />
+          <input className="mf-input" inputMode="decimal" value={targetPriceStr} onChange={(e) => { targetTouched.current = true; setTargetPriceStr(numOnly(e.target.value)); }} />
           <input className="mf-range" type="range" min={Math.round(priceDisp)} max={Math.round(targetMax)} step="500" value={targetPrice}
             onChange={(e) => { targetTouched.current = true; setTargetPriceStr(e.target.value); }} />
         </div>
