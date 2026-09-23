@@ -1050,6 +1050,11 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
   const varSpent = varSpentCurYm;
   const savingsNow = incomeThisMonth - fixedM - varSpent;
   const noIncome = !incomeThisMonth;
+  // el bloque de balance habla del ahorro acumulado si el rollover esta activo, y del mes si no.
+  // el icono, el color y el fondo deben seguir SIEMPRE al numero que se muestra, no a otro.
+  const rollover = !!settings.rolloverSavings;
+  const balValue = rollover ? accSavings : savingsNow;
+  const balOk = balValue >= 0;
   // el animo de Michi depende del ahorro del mes, no de los gastos: >=90% del ahorro objetivo => rico, 0-90% => normal, nada => pobre
   const savingsPct = budgets.savings > 0 ? savingsNow / budgets.savings : (savingsNow > 0 ? 1 : 0);
   let mood = "neutral", bubble = t("bubble_neutral");
@@ -1218,22 +1223,25 @@ function Inicio({ settings, incomeThisMonth, budgets, fixedM, txns, cur, curYm, 
             </div>
           );
         })()}
-        <div className="mf-balance" style={{ background: savingsNow >= 0 ? "var(--mint-soft)" : "#ffe9e9", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
+        <div className="mf-balance" style={{ background: balOk ? "var(--mint-soft)" : "#ffe9e9", flexDirection: "column", alignItems: "flex-start", gap: 4 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, width: "100%" }}>
-            <span style={{ fontSize: 26 }}>{savingsNow >= 0 ? "🎉" : "⚠️"}</span>
+            <span style={{ fontSize: 26 }}>{balOk ? "🎉" : "⚠️"}</span>
             <div>
-              <div className="big" style={{ color: savingsNow >= 0 ? "var(--good)" : "var(--warn)" }}>
-                {settings.rolloverSavings ? money(Math.round(accSavings), cur) : money(Math.round(savingsNow), cur)}
+              <div className="big" style={{ color: balOk ? "var(--good)" : "var(--warn)" }}>
+                {balValue < 0 ? "−" : ""}{money(Math.abs(Math.round(balValue)), cur)}
               </div>
               <div className="lab" style={{ color: "var(--ink-soft)" }}>
-                {savingsNow < 0 ? t("over_budget") : settings.rolloverSavings ? t("acc_savings") : t("this_month_savings")}
+                {rollover ? t("acc_savings") : (savingsNow < 0 ? t("over_budget") : t("this_month_savings"))}
               </div>
-              {settings.rolloverSavings && savingsNow >= 0 && (
-                <div className="lab" style={{ color: "var(--ink-soft)", fontSize: 11 }}>{t("this_month_label", { month: ymToLabel(curYm) })}: {money(Math.round(savingsNow), cur)}</div>
+              {/* con rollover, el dato del mes va siempre visible: es justo cuando va en negativo cuando mas falta hace */}
+              {rollover && (
+                <div className="lab" style={{ fontSize: 11, color: savingsNow < 0 ? "var(--warn)" : "var(--ink-soft)" }}>
+                  {t("this_month_label", { month: ymToLabel(curYm) })}: {savingsNow < 0 ? "−" : ""}{money(Math.abs(Math.round(savingsNow)), cur)}
+                </div>
               )}
             </div>
           </div>
-          {savingsNow >= 0 && (
+          {balOk && (
             <div style={{ fontSize: 11.5, fontWeight: 700, color: "var(--ink)", fontStyle: "italic", paddingLeft: 2, lineHeight: 1.4 }}>
               {dailyQuote()}
             </div>
