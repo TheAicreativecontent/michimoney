@@ -27,6 +27,20 @@ Si la app te ayuda, puedes invitar a un cafecito desde la pantalla **Karma** (Bu
 
 If the app helps you, you can buy a coffee from the **Karma** screen. It unlocks nothing, it is just a thank you.
 
+## 📄 Licencia / License
+
+**ES** · Copyright (c) 2026 Albert Miarnau. **Todos los derechos reservados.**
+El código está publicado por transparencia, para que puedas comprobar qué hace
+la app con tus datos. Puedes leerlo y usar la app, pero no copiarlo,
+redistribuirlo ni publicar una versión propia. Las ilustraciones de Michi son
+obra original y no están licenciadas para su reutilización. Ver [LICENSE](LICENSE).
+
+**EN** · Copyright (c) 2026 Albert Miarnau. **All rights reserved.** The code is
+published for transparency so you can verify what the app does with your data.
+You may read it and use the app, but not copy, redistribute or publish your own
+version. The Michi artwork is original and not licensed for reuse. See
+[LICENSE](LICENSE).
+
 ---
 
 Un proyecto de **The AI Creative Content** 🐾
