@@ -1001,7 +1001,7 @@ function App() {
         .then((d) => { const p = parseFloat(d?.result?.XXBTZEUR?.c?.[0]); if (!p) throw 0; return 1 / p; }))
       .catch(() => FX_FALLBACK.BTC);
     const FX_LIVE = ["USD","GBP","JPY","CHF","CAD","AUD","MXN","THB"];
-    withT(`https://api.frankfurter.app/latest?from=EUR&to=${FX_LIVE.join(",")}`, 7000)
+    withT(`https://api.frankfurter.dev/v1/latest?from=EUR&to=${FX_LIVE.join(",")}`, 7000)
       .then((r) => r.ok ? r.json() : Promise.reject())
       .then((d) => { if (!d || !d.rates || !d.rates.USD) throw 0; return { ...d.rates, date: d.date }; })
       .catch(() => withT("https://open.er-api.com/v6/latest/EUR", 7000)
