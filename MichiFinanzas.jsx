@@ -1651,7 +1651,7 @@ function Ayuda({ setTab }) {
   const faqs = LANG === "en" ? [
     { section: "🚀 Getting started", items: [
       { q: "How do I start?", a: "Tap ＋ to log your income for the month. Then go to ⚙️ Settings and set how you split it between fixed expenses, variable expenses and savings." },
-      { q: "Where is my data stored?", a: "Everything stays on your device — nobody else has access. Back up regularly using the 🛡️ button on the home screen." },
+      { q: "Where is my data stored?", a: "Everything stays on your device. Nobody else has access. Back up regularly using the 🛡️ button on the home screen." },
     ]},
     { section: "🏠 Fixed expenses", items: [
       { q: "What are fixed expenses?", a: "Recurring costs you pay regularly: rent, subscriptions, gym... Add them once and the app converts them to a monthly amount automatically." },
@@ -1659,7 +1659,7 @@ function Ayuda({ setTab }) {
     ]},
     { section: "🛍️ Variable expenses", items: [
       { q: "What are variable expenses?", a: "Day-to-day spending: food, transport, leisure... Log each one with the ＋ button." },
-      { q: "Can I see my spending by category?", a: "Yes — tap any category bar in the Variables screen to expand all transactions for that category." },
+      { q: "Can I see my spending by category?", a: "Yes, tap any category bar in the Variables screen to expand all transactions for that category." },
     ]},
     { section: "🐷 Savings", items: [
       { q: "How is my savings calculated?", a: "Income − Fixed expenses (monthly) − Variable expenses = Savings this month." },
@@ -1667,7 +1667,7 @@ function Ayuda({ setTab }) {
     ]},
     { section: "🏦 Net worth", items: [
       { q: "What is the net worth screen?", a: "Your total assets: bank accounts, investments, property... Tap the app logo 7 times to access it." },
-      { q: "Does it connect to my bank?", a: "No — you enter values manually. Full control, full privacy." },
+      { q: "Does it connect to my bank?", a: "No, you enter values manually. Full control, full privacy." },
     ]},
     { section: "₿ BTC", items: [
       { q: "What is the BTC screen?", a: "It shows the current Bitcoin price and a simulator to calculate what your BTC would be worth at a target price." },
